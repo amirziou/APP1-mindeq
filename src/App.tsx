@@ -34,7 +34,7 @@ const App = () => {
         </Show>
         <GridItem area={"main"}>
           {" "}
-          {/*<TableDemo />*/}
+          {/* <TableDemo />*/}
           {/* <TableDemoTwo />*/}
           <Data />
         </GridItem>

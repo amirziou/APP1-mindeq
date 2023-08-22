@@ -10,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
+import CbCm from "./CbCm";
 
 const Data = () => {
   const {
@@ -53,12 +54,21 @@ const Data = () => {
                 }
               >
                 <CardHeader>
-                  <HStack>
-                    <Heading size="md" color={"white"}>
-                      Chaine {chaine.id}
-                    </Heading>
+                  <HStack justifyContent="space-between" alignItems="center">
+                    {/* Right side */}
+                    <div>
+                      <HStack>
+                        <Heading size="md" color="white">
+                          Chaine {chaine.id}
+                        </Heading>
+                        <MdGppGood color="gray" />
+                      </HStack>
+                    </div>
 
-                    <MdGppGood color="gray" />
+                    {/* Left side */}
+                    <HStack>
+                      <CbCm cb={chaine.cb} cm={chaine.cm} />
+                    </HStack>
                   </HStack>
                 </CardHeader>
                 <Divider />
