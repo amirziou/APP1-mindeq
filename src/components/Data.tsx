@@ -1,5 +1,5 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
-import { Heading, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { Box, Divider, Heading, SimpleGrid, Spinner } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 
 const Data = () => {
@@ -12,6 +12,14 @@ const Data = () => {
     setchaineArray,
   } = ExtractingData();
 
+  const backgroundColors = [
+    "#f08080",
+    "#0000ff",
+    "#00ced1",
+    "#6b8e23",
+    "#ffdead",
+  ];
+
   return (
     <>
       {error && <p> {error} </p>}
@@ -22,13 +30,27 @@ const Data = () => {
         </div>
       ) : (
         <div>
-          <SimpleGrid spacing={4}>
+          <SimpleGrid
+            columns={2}
+            spacing={4}
+            padding={5}
+            backgroundColor={"#f5f5f5"}
+          >
             {chaineArray.map((chaine, index) => (
-              <Card key={index}>
+              <Card
+                key={index}
+                borderRadius={13}
+                backgroundColor={
+                  backgroundColors[index % backgroundColors.length]
+                }
+              >
                 <CardHeader>
-                  <Heading size="md">Chaine {chaine.id}</Heading>
+                  <Heading size="md" color={"white"}>
+                    Chaine {chaine.id}
+                  </Heading>
                 </CardHeader>
-                <CardBody>
+                <Divider />
+                <CardBody color={"white"}>
                   ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm}
                 </CardBody>
               </Card>
