@@ -17,6 +17,7 @@ const ExtractingData = () => {
   const [chaineArray, setchaineArray] = useState<Chaine>([]);
 
   useEffect(() => {
+    console.log("start extracting");
     const starCountRef = ref(db, "/");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();

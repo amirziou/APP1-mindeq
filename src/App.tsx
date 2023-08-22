@@ -2,6 +2,8 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import ExtractingData, { Chaine } from "./firebase/ExtractingData";
 import Data from "./components/Data";
+import TableDemo from "./components/TableDemo";
+import TableDemoTwo from "./components/TableDemoTwo";
 
 const App = () => {
   const {
@@ -32,6 +34,8 @@ const App = () => {
         </Show>
         <GridItem area={"main"}>
           {" "}
+          {/*<TableDemo />*/}
+          {/* <TableDemoTwo />*/}
           <Data />
         </GridItem>
       </Grid>
