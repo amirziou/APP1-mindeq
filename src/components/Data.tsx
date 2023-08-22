@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
+import CbCmEarlier from "./CbCmEarlier";
 
 const Data = () => {
   const {
@@ -29,7 +30,7 @@ const Data = () => {
     "blue.200",
     "cyan.200",
     "orange.200",
-    "yellow.300",
+    "red.300",
     "purple.200",
     "pink.200",
   ];
@@ -70,10 +71,12 @@ const Data = () => {
                     <CbCm cb={chaine.cb} cm={chaine.cm} />
                   </HStack>
                 </HStack>
+                <Text fontSize={12}>Description personalisée</Text>
               </CardHeader>
               <Divider />
               <CardBody color={"white"}>
-                ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm}
+                <CbCmEarlier cb={chaine.cb} cm={chaine.cm} />
+                {/* ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm} */}
               </CardBody>
             </Card>
           ))}

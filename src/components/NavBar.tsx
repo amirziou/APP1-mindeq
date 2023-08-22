@@ -3,7 +3,7 @@ import logo from "../assets/lelogo3.png";
 
 const NavBar = () => {
   return (
-    <HStack padding="10px" backgroundColor={"gray.200"}>
+    <HStack padding="10px" backgroundColor={"gray.700"}>
       {/*to write in horizantle*/}
       <Image src={logo} width={150} />
       <Text></Text>

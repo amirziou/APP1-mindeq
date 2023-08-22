@@ -11,7 +11,7 @@ const CbCm = ({ cb, cm }: Props) => {
   let colorM = "red";
   return (
     <>
-      <Badge colorScheme={color} fontSize={14} paddingX={2} borderRadius="4px">
+      <Badge colorScheme={color} fontSize={16} paddingX={2} borderRadius="4px">
         {cb}
       </Badge>
       <Badge colorScheme={colorM} fontSize={12} borderRadius="4px">
