@@ -1,5 +1,14 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
-import { Box, Divider, Heading, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { MdGppGood } from "react-icons/md";
+import {
+  Box,
+  Divider,
+  HStack,
+  Heading,
+  SimpleGrid,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 
 const Data = () => {
@@ -13,11 +22,15 @@ const Data = () => {
   } = ExtractingData();
 
   const backgroundColors = [
-    "#f08080",
-    "#0000ff",
-    "#00ced1",
-    "#6b8e23",
-    "#ffdead",
+    "red.200",
+    "green.200",
+    "teal.200",
+    "blue.200",
+    "cyan.200",
+    "orange.200",
+    "yellow.300",
+    "purple.200",
+    "pink.200",
   ];
 
   return (
@@ -30,12 +43,7 @@ const Data = () => {
         </div>
       ) : (
         <div>
-          <SimpleGrid
-            columns={2}
-            spacing={4}
-            padding={5}
-            backgroundColor={"#f5f5f5"}
-          >
+          <SimpleGrid spacing={4} padding={5} backgroundColor={"gray.200"}>
             {chaineArray.map((chaine, index) => (
               <Card
                 key={index}
@@ -45,9 +53,13 @@ const Data = () => {
                 }
               >
                 <CardHeader>
-                  <Heading size="md" color={"white"}>
-                    Chaine {chaine.id}
-                  </Heading>
+                  <HStack>
+                    <Heading size="md" color={"white"}>
+                      Chaine {chaine.id}
+                    </Heading>
+
+                    <MdGppGood color="gray" />
+                  </HStack>
                 </CardHeader>
                 <Divider />
                 <CardBody color={"white"}>
