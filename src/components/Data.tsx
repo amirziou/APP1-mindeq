@@ -1,5 +1,6 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
+import { AiFillCloseCircle } from "react-icons/ai";
 import {
   Box,
   Divider,
@@ -12,6 +13,7 @@ import {
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 import CbCmEarlier from "./CbCmEarlier";
+import { useState } from "react";
 
 const Data = () => {
   const {
@@ -62,13 +64,20 @@ const Data = () => {
                       <Heading size="md" color="white">
                         Chaine {chaine.id}
                       </Heading>
-                      <MdGppGood color="gray" />
+                      {chaine.Etat === 1 ? (
+                        <MdGppGood color="gray" />
+                      ) : (
+                        <AiFillCloseCircle color="red" />
+                      )}
+                      {/* <MdGppGood color="gray" /> */}
                     </HStack>
                   </div>
 
                   {/* Left side */}
                   <HStack>
-                    <CbCm cb={chaine.cb} cm={chaine.cm} />
+                    {chaine.Etat === 1 ? (
+                      <CbCm cb={chaine.cb} cm={chaine.cm} />
+                    ) : null}
                   </HStack>
                 </HStack>
                 <Text fontSize={12}>Description personalisée</Text>

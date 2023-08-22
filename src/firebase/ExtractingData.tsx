@@ -9,12 +9,14 @@ export type Chaine = {
   id: number;
   cb: number;
   cm: number;
+  Etat: number;
 }[];
 
 const ExtractingData = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [chaineArray, setchaineArray] = useState<Chaine>([]);
+  const [Etat, setEtat] = useState(0);
 
   useEffect(() => {
     console.log("start extracting");
