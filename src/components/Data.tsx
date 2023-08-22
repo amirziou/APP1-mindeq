@@ -38,48 +38,47 @@ const Data = () => {
     <>
       {error && <p> {error} </p>}
 
-      {isLoading ? (
+      {/*{isLoading ? (
         <div>
           <Spinner />
         </div>
-      ) : (
-        <div>
-          <SimpleGrid spacing={4} padding={5} backgroundColor={"gray.200"}>
-            {chaineArray.map((chaine, index) => (
-              <Card
-                key={index}
-                borderRadius={13}
-                backgroundColor={
-                  backgroundColors[index % backgroundColors.length]
-                }
-              >
-                <CardHeader>
-                  <HStack justifyContent="space-between" alignItems="center">
-                    {/* Right side */}
-                    <div>
-                      <HStack>
-                        <Heading size="md" color="white">
-                          Chaine {chaine.id}
-                        </Heading>
-                        <MdGppGood color="gray" />
-                      </HStack>
-                    </div>
-
-                    {/* Left side */}
+      ) : (*/}
+      <div>
+        <SimpleGrid spacing={4} padding={5} backgroundColor={"gray.200"}>
+          {chaineArray.map((chaine, index) => (
+            <Card
+              key={index}
+              borderRadius={13}
+              backgroundColor={
+                backgroundColors[index % backgroundColors.length]
+              }
+            >
+              <CardHeader>
+                <HStack justifyContent="space-between" alignItems="center">
+                  {/* Right side */}
+                  <div>
                     <HStack>
-                      <CbCm cb={chaine.cb} cm={chaine.cm} />
+                      <Heading size="md" color="white">
+                        Chaine {chaine.id}
+                      </Heading>
+                      <MdGppGood color="gray" />
                     </HStack>
+                  </div>
+
+                  {/* Left side */}
+                  <HStack>
+                    <CbCm cb={chaine.cb} cm={chaine.cm} />
                   </HStack>
-                </CardHeader>
-                <Divider />
-                <CardBody color={"white"}>
-                  ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm}
-                </CardBody>
-              </Card>
-            ))}
-          </SimpleGrid>
-        </div>
-      )}
+                </HStack>
+              </CardHeader>
+              <Divider />
+              <CardBody color={"white"}>
+                ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm}
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
+      </div>
     </>
   );
 };

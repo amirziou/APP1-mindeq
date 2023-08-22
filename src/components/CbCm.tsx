@@ -7,10 +7,16 @@ interface Props {
 }
 
 const CbCm = ({ cb, cm }: Props) => {
+  let color = cb > 75 ? "green" : cb > 50 ? "yellow" : "red";
+  let colorM = "red";
   return (
     <>
-      <Badge>{cb}</Badge>
-      <Badge>{cm}</Badge>
+      <Badge colorScheme={color} fontSize={14} paddingX={2} borderRadius="4px">
+        {cb}
+      </Badge>
+      <Badge colorScheme={colorM} fontSize={12} borderRadius="4px">
+        {cm}
+      </Badge>
     </>
   );
 };
