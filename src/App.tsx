@@ -4,6 +4,7 @@ import ExtractingData, { Chaine } from "./firebase/ExtractingData";
 import Data from "./components/Data";
 import TableDemo from "./components/TableDemo";
 import TableDemoTwo from "./components/TableDemoTwo";
+import TimeSelector from "./components/TimeSelector";
 
 const App = () => {
   const {
@@ -19,6 +20,7 @@ const App = () => {
     <>
       {error && <p className="text-danger"> {error} </p>}
       <Grid
+        backgroundColor={"gray.200"}
         templateAreas={{
           base: '"nav" "main"', // for small devices; under 1024px
           lg: '"nav nav" "aside main"', // bigger than 1024px
@@ -32,9 +34,8 @@ const App = () => {
           {/*to show it just in large screen lg*/}
           <GridItem area={"aside"}> Aside</GridItem>
         </Show>
-        <GridItem area={"main"}>
-          {" "}
-          {/* <TableDemo />*/}
+        <GridItem area={"main"} marginY={7}>
+          <TimeSelector /> {/* <TableDemo />*/}
           {/* <TableDemoTwo />*/}
           <Data />
         </GridItem>
