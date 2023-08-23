@@ -13,7 +13,6 @@ import {
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 import CbCmEarlier from "./CbCmEarlier";
-import { useState } from "react";
 
 const Data = () => {
   const {

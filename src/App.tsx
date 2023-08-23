@@ -16,32 +16,7 @@ const App = () => {
     setchaineArray,
   } = ExtractingData();
 
-  return (
-    <>
-      {error && <p className="text-danger"> {error} </p>}
-      <Grid
-        backgroundColor={"gray.200"}
-        templateAreas={{
-          base: '"nav" "main"', // for small devices; under 1024px
-          lg: '"nav nav" "aside main"', // bigger than 1024px
-        }}
-      >
-        <GridItem area={"nav"}>
-          <NavBar />
-        </GridItem>
-        <Show above="lg">
-          {" "}
-          {/*to show it just in large screen lg*/}
-          <GridItem area={"aside"}> Aside</GridItem>
-        </Show>
-        <GridItem area={"main"} marginY={7}>
-          <TimeSelector /> {/* <TableDemo />*/}
-          {/* <TableDemoTwo />*/}
-          <Data />
-        </GridItem>
-      </Grid>
-    </>
-  );
+  return <>{error && <p className="text-danger"> {error} </p>}</>;
 };
 
 export default App;
