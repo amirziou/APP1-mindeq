@@ -13,6 +13,7 @@ import {
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 import CbCmEarlier from "./CbCmEarlier";
+import { Link } from "react-router-dom";
 
 const Data = () => {
   const {
@@ -48,6 +49,7 @@ const Data = () => {
       <div>
         <SimpleGrid spacing={4} padding={5} backgroundColor={"gray.200"}>
           {chaineArray.map((chaine, index) => (
+            // <Link to={"/chaine/" + chaine.id}>
             <Card
               key={index}
               borderRadius={13}
@@ -87,6 +89,7 @@ const Data = () => {
                 {/* ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm} */}
               </CardBody>
             </Card>
+            // </Link>
           ))}
         </SimpleGrid>
       </div>
