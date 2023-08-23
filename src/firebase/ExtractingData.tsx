@@ -16,6 +16,7 @@ const ExtractingData = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [chaineArray, setchaineArray] = useState<Chaine>([]);
+  const [chaineArrayOne, setchaineArrayOne] = useState<Chaine>([]);
   const [Etat, setEtat] = useState(0);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const ExtractingData = () => {
           setError(err.message);
           setLoading(false);
         });
+
       return () => controller.abort();
     });
   }, []);

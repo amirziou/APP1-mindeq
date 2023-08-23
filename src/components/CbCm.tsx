@@ -11,12 +11,25 @@ const CbCm = ({ cb, cm }: Props) => {
   let colorM = "red";
   return (
     <>
-      <Badge colorScheme={color} fontSize={16} paddingX={2} borderRadius="4px">
-        {cb}
-      </Badge>
-      <Badge colorScheme={colorM} fontSize={12} borderRadius="4px">
-        {cm}
-      </Badge>
+      <VStack marginTop={4}>
+        <Badge
+          colorScheme={color}
+          fontSize={20}
+          paddingY={2}
+          paddingX={5}
+          borderRadius="4px"
+        >
+          {cb}
+        </Badge>
+        <Badge
+          colorScheme={colorM}
+          paddingX={2}
+          fontSize={16}
+          borderRadius="4px"
+        >
+          {cm}
+        </Badge>
+      </VStack>
     </>
   );
 };

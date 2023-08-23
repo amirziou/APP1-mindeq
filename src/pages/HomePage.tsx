@@ -3,6 +3,7 @@ import React from "react";
 import Data from "../components/Data";
 import NavBar from "../components/NavBar";
 import TimeSelector from "../components/TimeSelector";
+import ChartBar from "../components/ChartBar";
 
 const HomePage = () => {
   return (
@@ -18,6 +19,7 @@ const HomePage = () => {
         <TimeSelector /> {/* <TableDemo />*/}
         {/* <TableDemoTwo />*/}
         <Data />
+        {/* <ChartBar /> */}
       </GridItem>
     </Grid>
   );
