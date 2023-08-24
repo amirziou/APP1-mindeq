@@ -13,7 +13,7 @@ import {
 import { BsChevronDown } from "react-icons/bs";
 const TimeSelector = () => {
   return (
-    <Tabs variant="soft-rounded" colorScheme="green">
+    <Tabs variant="soft-rounded" colorScheme="green" marginY={8}>
       <TabList display="flex" justifyContent="center" alignItems="center">
         <Tab>Heure</Tab>
         <Tab>Jour</Tab>

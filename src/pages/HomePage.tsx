@@ -15,8 +15,8 @@ const HomePage = () => {
       }}
     >
       <Show above="lg"> {/*to show it just in large screen lg*/}</Show>
-      <GridItem area={"main"} marginY={7}>
-        <TimeSelector /> {/* <TableDemo />*/}
+      <GridItem area={"main"}>
+        {/* <TableDemo />*/}
         {/* <TableDemoTwo />*/}
         <Data />
         {/* <ChartBar /> */}
