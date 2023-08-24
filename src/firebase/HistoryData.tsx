@@ -8,11 +8,15 @@ import { Divider, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 
 let b = 0;
 interface GroupedData {
-  [weekNumber: string]: {
-    [dateKey: string]: {
-      [hour: string]: {
-        cb: number;
-        cm: number;
+  [year: string]: {
+    [month: string]: {
+      [weekNumber: string]: {
+        [dateKey: string]: {
+          [hour: string]: {
+            cb: number;
+            cm: number;
+          };
+        };
       };
     };
   };
@@ -70,24 +74,27 @@ const HistoryData = () => {
       const dateKey = jour + "/" + mois + "/" + annee;
       const weekNumber = getWeekNumber(item.timestamp);
 
-      if (!groupedData[weekNumber]) {
-        groupedData[weekNumber] = {};
+      if (!groupedData[annee]) {
+        groupedData[annee] = {};
       }
-      if (!groupedData[weekNumber][dateKey]) {
-        groupedData[weekNumber][dateKey] = {};
+      if (!groupedData[annee][mois]) {
+        groupedData[annee][mois] = {};
       }
-      if (!groupedData[weekNumber][dateKey][heure]) {
-        groupedData[weekNumber][dateKey][heure] = { cb: 0, cm: 0 };
+      if (!groupedData[annee][mois][weekNumber]) {
+        groupedData[annee][mois][weekNumber] = {};
+      }
+      if (!groupedData[annee][mois][weekNumber][dateKey]) {
+        groupedData[annee][mois][weekNumber][dateKey] = {};
+      }
+      if (!groupedData[annee][mois][weekNumber][dateKey][heure]) {
+        groupedData[annee][mois][weekNumber][dateKey][heure] = { cb: 0, cm: 0 };
       }
 
       let a = Number(item.cb);
       let b = Number(item.cm);
 
-      if (!groupedData[weekNumber][dateKey]) {
-        groupedData[weekNumber][dateKey][heure] = { cb: 0, cm: 0 };
-      }
-      groupedData[weekNumber][dateKey][heure].cb += a;
-      groupedData[weekNumber][dateKey][heure].cm += b;
+      groupedData[annee][mois][weekNumber][dateKey][heure].cb += a;
+      groupedData[annee][mois][weekNumber][dateKey][heure].cm += b;
       console.log(groupedData);
 
       setOrganizedData(groupedData);
@@ -96,22 +103,46 @@ const HistoryData = () => {
 
   return (
     <div className="App">
-      <Text fontSize={30}>Données Organisées en jour et en heure</Text>
-      {Object.keys(organizedData).map((weekNumber) => (
-        <div key={weekNumber}>
-          <Text fontSize={25}>{`Week: ${weekNumber}`}</Text>
-          {Object.keys(organizedData[weekNumber]).map((dateKey) => (
-            <div key={dateKey}>
-              <Text fontSize={20}>{dateKey}</Text>
-              {Object.keys(organizedData[weekNumber][dateKey]).map((heure) => (
-                <div key={heure}>
-                  <Text fontSize={15}>Heure: {heure}:00</Text>
-                  <Text>
-                    CB: {organizedData[weekNumber][dateKey][heure].cb}
-                  </Text>
-                  <Text>
-                    CM: {organizedData[weekNumber][dateKey][heure].cm}
-                  </Text>
+      <h4>Données Organisées en jour et en heure</h4>
+      {Object.keys(organizedData).map((annee) => (
+        <div key={annee}>
+          <h2>{`Année: ${annee}`}</h2>
+          {Object.keys(organizedData[annee]).map((mois) => (
+            <div key={mois}>
+              <h3>{`Mois: ${mois}`}</h3>
+              {Object.keys(organizedData[annee][mois]).map((weekNumber) => (
+                <div key={weekNumber}>
+                  <h4>{`Semaine: ${weekNumber}`}</h4>
+                  {Object.keys(organizedData[annee][mois][weekNumber]).map(
+                    (dateKey) => (
+                      <div key={dateKey}>
+                        <h5>Jour: {dateKey}</h5>
+                        {Object.keys(
+                          organizedData[annee][mois][weekNumber][dateKey]
+                        ).map((heure) => (
+                          <div key={heure}>
+                            <p>Heure: {heure}:00</p>
+                            <p>
+                              CB:{" "}
+                              {
+                                organizedData[annee][mois][weekNumber][dateKey][
+                                  heure
+                                ].cb
+                              }
+                            </p>
+                            <p>
+                              CM:{" "}
+                              {
+                                organizedData[annee][mois][weekNumber][dateKey][
+                                  heure
+                                ].cm
+                              }
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )}
                 </div>
               ))}
             </div>
