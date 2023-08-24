@@ -26,7 +26,6 @@ export const options = {
       position: "top" as const,
     },
     title: {
-      display: true,
       text: "Chart.js Bar Chart",
     },
   },
@@ -50,12 +49,12 @@ export const data = {
   ],
 };
 
-export function ChartBar() {
+const ChartBar = () => {
   return (
     <div>
       <Bar options={options} data={data} />
     </div>
   );
-}
+};
 
 export default ChartBar;

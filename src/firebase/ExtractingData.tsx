@@ -10,6 +10,7 @@ export type Chaine = {
   cb: number;
   cm: number;
   Etat: number;
+  timestamp: string;
 }[];
 
 const ExtractingData = () => {

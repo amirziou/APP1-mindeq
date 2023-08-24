@@ -1,11 +1,14 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Divider, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
 import { Link } from "react-router-dom";
+import CbCmEarlier from "./CbCmEarlier";
+import ChartBar from "./ChartBar";
+import ChartBarGoog from "./ChartBarGoog";
 
 const Data = () => {
   const { chaineArray, error } = ExtractingData();
@@ -71,7 +74,7 @@ const Data = () => {
                   ) : null}
                 </CardHeader>
                 {/* <Divider /> */}
-                {/* <CardBody color={"white"}> */}
+                {/* <CardBody> */}
                 {/* <CbCmEarlier cb={chaine.cb} cm={chaine.cm} /> */}
                 {/* ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm} */}
                 {/* </CardBody> */}
