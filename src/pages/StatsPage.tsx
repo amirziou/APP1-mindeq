@@ -14,7 +14,8 @@ import {
 } from "@chakra-ui/react";
 import HistoryData from "../firebase/HistoryData";
 import CbCmEarlier from "../components/CbCmEarlier";
-import ChartBar from "../components/ChartBar";
+import ChartBar, { options } from "../components/ChartBar";
+import { Bar } from "react-chartjs-2";
 
 const StatsPage = () => {
   const { organizedData, error } = HistoryData();
@@ -95,7 +96,56 @@ const StatsPage = () => {
                                         </Tr>
                                       </Tbody>
                                     </Table>
-                                    <ChartBar />
+
+                                    <div
+                                      key={dateKey}
+                                      style={{ width: "100%", height: "400px" }}
+                                    >
+                                      <Bar
+                                        key={dateKey}
+                                        options={options}
+                                        data={{
+                                          labels: Object.keys(
+                                            organizedData[annee][mois][
+                                              weekNumber
+                                            ][dateKey]
+                                          ).map((heure) => heure),
+                                          datasets: [
+                                            {
+                                              label: dateKey,
+                                              data: Object.keys(
+                                                organizedData[annee][mois][
+                                                  weekNumber
+                                                ][dateKey]
+                                              ).map(
+                                                (heure) =>
+                                                  organizedData[annee][mois][
+                                                    weekNumber
+                                                  ][dateKey][heure].cb
+                                              ),
+
+                                              backgroundColor:
+                                                "rgba(255, 99, 132, 0.5)",
+                                            },
+                                            {
+                                              label: dateKey,
+                                              data: Object.keys(
+                                                organizedData[annee][mois][
+                                                  weekNumber
+                                                ][dateKey]
+                                              ).map(
+                                                (heure) =>
+                                                  organizedData[annee][mois][
+                                                    weekNumber
+                                                  ][dateKey][heure].cm
+                                              ),
+                                              backgroundColor:
+                                                "rgba(53, 162, 235, 0.5)",
+                                            },
+                                          ],
+                                        }}
+                                      />
+                                    </div>
                                   </TableContainer>
                                 </CardBody>
                               </Card>

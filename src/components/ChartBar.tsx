@@ -20,6 +20,10 @@ ChartJS.register(
   Legend
 );
 
+interface Props {
+  Day: String;
+}
+
 export const options = {
   maintainAspectRatio: false,
   plugins: {
@@ -32,7 +36,7 @@ export const options = {
   },
 };
 
-const ChartBar = () => {
+const ChartBar = ({ Day }: Props) => {
   const { organizedData, error } = HistoryData();
 
   const labels: string[] = [];
@@ -80,44 +84,40 @@ const ChartBar = () => {
                 {Object.keys(organizedData[annee][mois]).map((weekNumber) => (
                   <div key={weekNumber}>
                     {Object.keys(organizedData[annee][mois][weekNumber]).map(
-                      (dateKey) => (
+                      (Day) => (
                         <div
-                          key={dateKey}
+                          key={Day}
                           style={{ width: "100%", height: "400px" }}
                         >
                           <Bar
-                            key={dateKey}
+                            key={Day}
                             options={options}
                             data={{
                               labels: Object.keys(
-                                organizedData[annee][mois][weekNumber][dateKey]
+                                organizedData[annee][mois][weekNumber][Day]
                               ).map((heure) => heure),
                               datasets: [
                                 {
-                                  label: dateKey,
+                                  label: Day,
                                   data: Object.keys(
-                                    organizedData[annee][mois][weekNumber][
-                                      dateKey
-                                    ]
+                                    organizedData[annee][mois][weekNumber][Day]
                                   ).map(
                                     (heure) =>
                                       organizedData[annee][mois][weekNumber][
-                                        dateKey
+                                        Day
                                       ][heure].cb
                                   ),
 
                                   backgroundColor: "rgba(255, 99, 132, 0.5)",
                                 },
                                 {
-                                  label: dateKey,
+                                  label: Day,
                                   data: Object.keys(
-                                    organizedData[annee][mois][weekNumber][
-                                      dateKey
-                                    ]
+                                    organizedData[annee][mois][weekNumber][Day]
                                   ).map(
                                     (heure) =>
                                       organizedData[annee][mois][weekNumber][
-                                        dateKey
+                                        Day
                                       ][heure].cm
                                   ),
                                   backgroundColor: "rgba(53, 162, 235, 0.5)",
