@@ -1,11 +1,12 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import Data from "../components/Data";
 import NavBar from "../components/NavBar";
 import TimeSelector from "../components/TimeSelector";
 import ChartBar from "../components/ChartBar";
 
 const HomePage = () => {
+  const [Time, setTime] = useState("");
   return (
     <Grid
       backgroundColor={"gray.200"}
@@ -18,7 +19,13 @@ const HomePage = () => {
       <GridItem area={"main"}>
         {/* <TableDemo />*/}
         {/* <TableDemoTwo />*/}
-        <Data />
+        <TimeSelector
+          onTimeSet={(a: string) => {
+            setTime(a);
+          }}
+        />
+        {Time === "heure" ? <Data /> : null}
+
         {/* <ChartBar /> */}
       </GridItem>
     </Grid>

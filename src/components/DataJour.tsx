@@ -9,11 +9,9 @@ import { Link } from "react-router-dom";
 import CbCmEarlier from "./CbCmEarlier";
 import ChartBar from "./ChartBar";
 import ChartBarGoog from "./ChartBarGoog";
-import HistoryData from "../firebase/HistoryData";
 
 const Data = () => {
   const { chaineArray, error } = ExtractingData();
-  const { Heartbeat } = HistoryData();
 
   const backgroundColors = [
     "red.200",
@@ -26,14 +24,6 @@ const Data = () => {
     "purple.200",
     "pink.200",
   ];
-
-  const isHeartbeatOld = () => {
-    const currentTimestamp = Date.now();
-    console.log(Heartbeat);
-    const lastHeartbeatTimestamp = parseInt(Heartbeat); // Replace this with the actual way you're getting the timestamp
-    const timeDifference = currentTimestamp - lastHeartbeatTimestamp;
-    return timeDifference > 7000; // 7 seconds in milliseconds
-  };
 
   return (
     <>
@@ -68,7 +58,7 @@ const Data = () => {
                     <Heading size="md" color="white">
                       Chaine {chaine.id}
                     </Heading>
-                    {isHeartbeatOld() ? (
+                    {chaine.Etat === 1 ? (
                       <MdGppGood color="gray" />
                     ) : (
                       <AiFillCloseCircle color="red" />

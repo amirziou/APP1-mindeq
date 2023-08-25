@@ -16,8 +16,10 @@ import HistoryData from "../firebase/HistoryData";
 import CbCmEarlier from "../components/CbCmEarlier";
 import ChartBar, { options } from "../components/ChartBar";
 import { Bar } from "react-chartjs-2";
+//import { Bar } from "react-chart.js";
+import "chartjs-plugin-datalabels";
 
-const StatsPage = () => {
+const StatsPageHeure = () => {
   const { organizedData, error } = HistoryData();
 
   return (
@@ -26,16 +28,16 @@ const StatsPage = () => {
         <p>{error}</p>
       ) : (
         <div className="App">
-          <h4>Données Organisées en jour et en heure</h4>
+          {/* <h4>Données Organisées en jour et en heure</h4> */}
           {Object.keys(organizedData).map((annee) => (
             <div key={annee}>
-              <h2>{`Année: ${annee}`}</h2>
+              {/* <h2>{`Année: ${annee}`}</h2> */}
               {Object.keys(organizedData[annee]).map((mois) => (
                 <div key={mois}>
-                  <h3>{`Mois: ${mois}`}</h3>
+                  {/* <h3>{`Mois: ${mois}`}</h3> */}
                   {Object.keys(organizedData[annee][mois]).map((weekNumber) => (
                     <div key={weekNumber}>
-                      <h4>{`Semaine: ${weekNumber}`}</h4>
+                      {/* <h4>{`Semaine: ${weekNumber}`}</h4> */}
                       {Object.keys(organizedData[annee][mois][weekNumber]).map(
                         (dateKey) => (
                           <div key={dateKey}>
@@ -57,7 +59,7 @@ const StatsPage = () => {
                                               weekNumber
                                             ][dateKey]
                                           ).map((heure) => (
-                                            <Th key={heure}>{`${heure}:00`}</Th>
+                                            <Th key={heure}>{`${heure}`}</Th>
                                           ))}
                                         </Tr>
                                       </Thead>
@@ -96,57 +98,56 @@ const StatsPage = () => {
                                         </Tr>
                                       </Tbody>
                                     </Table>
-
-                                    <div
-                                      key={dateKey}
-                                      style={{ width: "100%", height: "400px" }}
-                                    >
-                                      <Bar
-                                        key={dateKey}
-                                        options={options}
-                                        data={{
-                                          labels: Object.keys(
-                                            organizedData[annee][mois][
-                                              weekNumber
-                                            ][dateKey]
-                                          ).map((heure) => heure),
-                                          datasets: [
-                                            {
-                                              label: dateKey,
-                                              data: Object.keys(
-                                                organizedData[annee][mois][
-                                                  weekNumber
-                                                ][dateKey]
-                                              ).map(
-                                                (heure) =>
-                                                  organizedData[annee][mois][
-                                                    weekNumber
-                                                  ][dateKey][heure].cb
-                                              ),
-
-                                              backgroundColor:
-                                                "rgba(255, 99, 132, 0.5)",
-                                            },
-                                            {
-                                              label: dateKey,
-                                              data: Object.keys(
-                                                organizedData[annee][mois][
-                                                  weekNumber
-                                                ][dateKey]
-                                              ).map(
-                                                (heure) =>
-                                                  organizedData[annee][mois][
-                                                    weekNumber
-                                                  ][dateKey][heure].cm
-                                              ),
-                                              backgroundColor:
-                                                "rgba(53, 162, 235, 0.5)",
-                                            },
-                                          ],
-                                        }}
-                                      />
-                                    </div>
                                   </TableContainer>
+                                  <div
+                                    key={dateKey}
+                                    style={{ width: "100%", height: "400px" }}
+                                  >
+                                    <Bar
+                                      key={dateKey}
+                                      options={options}
+                                      data={{
+                                        labels: Object.keys(
+                                          organizedData[annee][mois][
+                                            weekNumber
+                                          ][dateKey]
+                                        ).map((heure) => heure),
+                                        datasets: [
+                                          {
+                                            label: "Production CB",
+                                            data: Object.keys(
+                                              organizedData[annee][mois][
+                                                weekNumber
+                                              ][dateKey]
+                                            ).map(
+                                              (heure) =>
+                                                organizedData[annee][mois][
+                                                  weekNumber
+                                                ][dateKey][heure].cb
+                                            ),
+
+                                            backgroundColor:
+                                              "rgba(255, 99, 132, 0.5)",
+                                          },
+                                          {
+                                            label: "Pièces défectueuses CM",
+                                            data: Object.keys(
+                                              organizedData[annee][mois][
+                                                weekNumber
+                                              ][dateKey]
+                                            ).map(
+                                              (heure) =>
+                                                organizedData[annee][mois][
+                                                  weekNumber
+                                                ][dateKey][heure].cm
+                                            ),
+                                            backgroundColor:
+                                              "rgba(53, 162, 235, 0.5)",
+                                          },
+                                        ],
+                                      }}
+                                    />
+                                  </div>
                                 </CardBody>
                               </Card>
                             </SimpleGrid>
@@ -165,4 +166,4 @@ const StatsPage = () => {
   );
 };
 
-export default StatsPage;
+export default StatsPageHeure;

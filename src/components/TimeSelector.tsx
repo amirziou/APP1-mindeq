@@ -1,33 +1,41 @@
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-import { BsChevronDown } from "react-icons/bs";
-const TimeSelector = () => {
+import { Tab, TabList, TabPanels, Tabs } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+
+interface Props {
+  onTimeSet: (arg0: string) => void;
+}
+
+const TimeSelector = ({ onTimeSet }: Props) => {
+  const tabs = ["heure", "jour", "semaine", "mois"];
+  const [selectedTab, setSelectedTab] = useState<string>(
+    localStorage.getItem("selectedTab") || tabs[0]
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedTab", selectedTab);
+    onTimeSet(selectedTab); // Call onTimeSet when selectedTab changes
+  }, [selectedTab, onTimeSet]);
+
+  useEffect(() => {
+    // Call onTimeSet when the component mounts to trigger it on refresh
+    onTimeSet(selectedTab);
+  }, []); // Empty dependency array to trigger once on mount
+
   return (
-    <Tabs variant="soft-rounded" colorScheme="green" marginY={8}>
+    <Tabs
+      variant="soft-rounded"
+      colorScheme="green"
+      marginY={8}
+      index={tabs.indexOf(selectedTab)}
+      onChange={(index) => setSelectedTab(tabs[index])}
+    >
       <TabList display="flex" justifyContent="center" alignItems="center">
-        <Tab>Heure</Tab>
-        <Tab>Jour</Tab>
-        <Tab>Semaine</Tab>
-        <Tab>Mois</Tab>
+        {tabs.map((tab) => (
+          <Tab key={tab} onClick={() => onTimeSet(tab)}>
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </Tab>
+        ))}
       </TabList>
-      <TabPanels>
-        {/* <TabPanel>
-          <p>one!</p>
-        </TabPanel>
-        <TabPanel>
-          <p>two!</p>
-        </TabPanel> */}
-      </TabPanels>
     </Tabs>
   );
 };
