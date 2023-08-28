@@ -16,12 +16,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  Reference: z
-    .string()
-    .min(1, { message: "Reference must be at least 1 characters!!" }),
   client: z
     .string()
     .min(1, { message: "Nom client must be at least 1 characters!!" }),
+
+  Reference: z
+    .string()
+    .min(1, { message: "Reference must be at least 1 characters!!" }),
 
   qte: z.number().min(1, { message: "Quantité must be at least 1!!" }),
 
@@ -32,25 +33,37 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const DialogForm = () => {
+interface Props {
+  onSubmit: (data: FieldValues) => void;
+}
+
+const DialogForm = ({ onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
-    onClose();
-  };
+  //   const onSubmit = (data: FieldValues) => {
+  // console.log(data);
+  // onClose();
+  //   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const cancelRef = React.useRef()
   const cancelRef = useRef(null);
 
+  const handleFormSubmit = (data: FieldValues) => {
+    // Call both onSubmit and onClose functions
+    onSubmit(data);
+    onClose();
+    reset();
+  };
+
   return (
     <>
-      <Button onClick={onOpen}>Discard</Button>
+      <Button onClick={onOpen}>Ajouter une Production</Button>
 
       <AlertDialog
         motionPreset="slideInBottom"
@@ -66,7 +79,7 @@ const DialogForm = () => {
           <AlertDialogHeader>Ajouter </AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
               <div className="my-3 mx-3">
                 <label htmlFor="client" className="form-label">
                   {" "}

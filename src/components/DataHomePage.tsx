@@ -1,21 +1,30 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { Divider, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  HStack,
+  Heading,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
 import { Link } from "react-router-dom";
 import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
+import CbCmTotal from "./CbCmTotal";
 
 const DataHomePage = () => {
   const { chaineArray, error } = ExtractingData();
 
   const { Heart } = HomePageHeartbeat();
   console.log(Heart);
-  const { hourlyDataArray } = HomePData();
-  // console.log(hourlyDataArray);
+  const { hourlyDataArray, dailyData, cumulativeData } = HomePData();
+  // console.log(dailyData);
 
   const backgroundColors = [
     "red.200",
@@ -29,6 +38,18 @@ const DataHomePage = () => {
     "pink.200",
   ];
 
+  const cumulativeDataArray = Object.keys(cumulativeData).map((chaineId) => ({
+    id: chaineId,
+    cb: cumulativeData[chaineId].cb,
+    cm: cumulativeData[chaineId].cm,
+  }));
+
+  const dailyDataArray = Object.keys(dailyData).map((chaineId) => ({
+    id: chaineId,
+    cb: dailyData[chaineId].cb,
+    cm: dailyData[chaineId].cm,
+  }));
+
   return (
     <>
       {error && <p> {error} </p>}
@@ -40,7 +61,7 @@ const DataHomePage = () => {
       ) : (*/}
       <div>
         <SimpleGrid
-          columns={{ base: 2, md: 4, lg: 5, xl: 7 }}
+          columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
           spacing={4}
           padding={5}
         >
@@ -67,15 +88,35 @@ const DataHomePage = () => {
                     ) : (
                       <AiFillCloseCircle color="red" size={25} />
                     )}
-                    {/* <MdGppGood color="gray" /> */}
                   </HStack>
-                  <Text fontSize={16} color="gray.500">
-                    Couturière <br /> Client: MAZEN <br /> Qt: 200
-                  </Text>
-
-                  {Heart[chaine.id] === true ? (
-                    <CbCm cb={chaine.cb} cm={chaine.cm} />
-                  ) : null}
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <HStack>
+                      <Text fontSize={16} color="gray.600" marginTop={17}>
+                        Couturière <br /> Client: MAZEN <br /> Qt: 200
+                      </Text>
+                    </HStack>
+                    {Heart[chaine.id] === true && (
+                      <CbCmTotal
+                        cb={cumulativeDataArray[chaine.id - 1]?.cb}
+                        cm={cumulativeDataArray[chaine.id - 1]?.cm}
+                      />
+                    )}
+                  </Flex>
+                  <HStack
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDir="column"
+                  >
+                    {Heart[chaine.id] === true ? (
+                      <CbCm
+                        cb={chaine.cb}
+                        cm={chaine.cm}
+                        b={dailyDataArray[chaine.id - 1]?.cb}
+                        m={dailyDataArray[chaine.id - 1]?.cm}
+                      />
+                    ) : null}
+                    {/* You can also add daily data here if needed */}
+                  </HStack>
                 </CardHeader>
                 {/* <Divider /> */}
                 {/* <CardBody> */}

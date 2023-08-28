@@ -38,6 +38,12 @@ const HomePData = () => {
   const [hourlyDataArray, setHourlyDataArray] = useState<HourlyDataArrayItem[]>(
     []
   );
+  const [dailyData, setDailyData] = useState<{
+    [chaineId: string]: ChaineHourlyData;
+  }>({});
+  const [cumulativeData, setCumulativeData] = useState<{
+    [chaineId: string]: ChaineHourlyData;
+  }>({});
   const [error, setError] = useState("");
   const [Heartbeat, setHeartbeat] = useState("");
 
@@ -58,22 +64,43 @@ const HomePData = () => {
               setChaineDataMap(data);
 
               const currentTime = Date.now();
-              const oneHourAgo = currentTime - 3600000; // One hour in milliseconds
+
+              // Calculate the timestamp for the start of the current day
+              const currentDate = new Date();
+              const currentDayStart = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate()
+              ).getTime();
 
               const hourlySumData: { [chaineId: string]: ChaineHourlyData } =
+                {};
+              const dailySumData: { [chaineId: string]: ChaineHourlyData } = {};
+              const cumulativeData: { [chaineId: string]: ChaineHourlyData } =
                 {};
 
               for (const chaineId in data) {
                 const chaineRecord = data[chaineId];
                 let cbSum = 0;
                 let cmSum = 0;
+                let cbDailySum = 0;
+                let cmDailySum = 0;
+                let cbCumulative = 0;
+                let cmCumulative = 0;
 
                 for (const timestamp in chaineRecord) {
+                  cbCumulative += parseInt(chaineRecord[timestamp].cb);
+                  cmCumulative += parseInt(chaineRecord[timestamp].cm);
                   const recordTimestamp =
                     parseInt(chaineRecord[timestamp].timestamp) * 1000;
 
+                  if (recordTimestamp >= currentDayStart) {
+                    cbDailySum += parseInt(chaineRecord[timestamp].cb);
+                    cmDailySum += parseInt(chaineRecord[timestamp].cm);
+                  }
+
                   if (
-                    recordTimestamp >= oneHourAgo &&
+                    recordTimestamp >= currentTime - 3600000 && // Last hour timestamp
                     recordTimestamp <= currentTime
                   ) {
                     cbSum += parseInt(chaineRecord[timestamp].cb);
@@ -82,9 +109,16 @@ const HomePData = () => {
                 }
 
                 hourlySumData[chaineId] = { cb: cbSum, cm: cmSum };
+                dailySumData[chaineId] = { cb: cbDailySum, cm: cmDailySum };
+                cumulativeData[chaineId] = {
+                  cb: cbCumulative,
+                  cm: cmCumulative,
+                };
               }
 
               setHourlyData(hourlySumData);
+              setDailyData(dailySumData);
+              setCumulativeData(cumulativeData);
 
               // Convert hourlyData object to array for rendering
               const hourlyDataArray = Object.keys(hourlySumData).map(
@@ -112,14 +146,15 @@ const HomePData = () => {
     fetchData();
   }, []);
 
+  //console.log(dailyData);
+
   // ...
-
-  //console.log(hourlyData);
-
-  // console.log(organizedData);
 
   return {
     hourlyDataArray,
+    dailyData,
+    cumulativeData,
   };
 };
+
 export default HomePData;

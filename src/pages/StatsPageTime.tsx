@@ -20,7 +20,7 @@ const StatsPageTime = () => {
         }}
       />
 
-      <DialogForm />
+      <DialogForm onSubmit={(data) => console.log(data)} />
 
       {Time === "heure" ? <StatsPageHeure /> : null}
       {Time === "jour" ? <StatsPageJour /> : null}
