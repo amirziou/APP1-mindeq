@@ -4,6 +4,8 @@ import StatsPageHeure from "./StatsPageHeure";
 import StatsPageJour from "./StatsPageJour";
 import StatsPageSem from "./StatsPageMois";
 import StatsPageMois from "./StatsPageMois";
+import Formulaire from "../formulaire/Formulaire";
+import DialogForm from "./DialogForm";
 
 const StatsPageTime = () => {
   const [Time, setTime] = useState("");
@@ -17,6 +19,8 @@ const StatsPageTime = () => {
           setTime(a);
         }}
       />
+
+      <DialogForm />
 
       {Time === "heure" ? <StatsPageHeure /> : null}
       {Time === "jour" ? <StatsPageJour /> : null}

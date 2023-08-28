@@ -7,6 +7,7 @@ import ChartBar from "../components/ChartBar";
 import HistoryData from "../firebase/HistoryData";
 import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
+import Formulaire from "../formulaire/Formulaire";
 
 const HomePage = () => {
   const [Time, setTime] = useState("");
@@ -31,7 +32,6 @@ const HomePage = () => {
             setTime(a);
           }}
         />
-
         {Time === "heure" ? <DataHomePage /> : null}
 
         {/* <ChartBar /> */}
