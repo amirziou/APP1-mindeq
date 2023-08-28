@@ -1,12 +1,19 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Data from "../components/Data";
+import DataHomePage from "../components/DataHomePage";
 import NavBar from "../components/NavBar";
 import TimeSelector from "../components/TimeSelector";
 import ChartBar from "../components/ChartBar";
+import HistoryData from "../firebase/HistoryData";
+import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
+import HomePData from "../firebase/HomePData";
 
 const HomePage = () => {
   const [Time, setTime] = useState("");
+  //const { Heartbeat } = HomePData();
+
+  const {} = HistoryData();
+
   return (
     <Grid
       backgroundColor={"gray.200"}
@@ -24,7 +31,8 @@ const HomePage = () => {
             setTime(a);
           }}
         />
-        {Time === "heure" ? <Data /> : null}
+
+        {Time === "heure" ? <DataHomePage /> : null}
 
         {/* <ChartBar /> */}
       </GridItem>

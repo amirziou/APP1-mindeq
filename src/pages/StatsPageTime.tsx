@@ -5,7 +5,7 @@ import StatsPageJour from "./StatsPageJour";
 import StatsPageSem from "./StatsPageMois";
 import StatsPageMois from "./StatsPageMois";
 
-const PageTime = () => {
+const StatsPageTime = () => {
   const [Time, setTime] = useState("");
 
   console.log(Time);
@@ -25,4 +25,4 @@ const PageTime = () => {
   );
 };
 
-export default PageTime;
+export default StatsPageTime;

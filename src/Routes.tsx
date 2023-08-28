@@ -3,7 +3,7 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import StatsPage from "./pages/StatsPageHeure";
 import HistoryData from "./firebase/HistoryData";
-import PageTime from "./pages/PageTime";
+import StatsPageTime from "./pages/StatsPageTime";
 
 const router = createBrowserRouter([
   {
@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/chaine/:id", element: <PageTime /> },
+      { path: "/chaine/:id", element: <StatsPageTime /> },
     ],
   },
 ]);

@@ -70,7 +70,7 @@ const HistoryData = () => {
 
   useEffect(() => {
     console.log("start extracting one chaine data");
-    const starCountRef = ref(db, "/");
+    const starCountRef = ref(db, "/HistoryPrjt0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       axiosClient
@@ -94,7 +94,6 @@ const HistoryData = () => {
       return () => controller.abort();
     });
   }, []);
-  //console.log(Heartbeat);
 
   useEffect(() => {
     const convertedDateObjects = ONEchaineArray.map((item) => {
@@ -175,7 +174,7 @@ const HistoryData = () => {
     });
   }, [ONEchaineArray]);
 
-  //console.log(organizedData);
+  // console.log(organizedData);
 
   return {
     Heartbeat,
@@ -184,60 +183,5 @@ const HistoryData = () => {
     organizedDataMois,
     error,
   };
-
-  {
-    /* {error ? (
-        <p> {error} </p>
-      ) : (
-        <div className="App">
-          <h4>Données Organisées en jour et en heure</h4>
-          {Object.keys(organizedData).map((annee) => (
-            <div key={annee}>
-              <h2>{`Année: ${annee}`}</h2>
-              {Object.keys(organizedData[annee]).map((mois) => (
-                <div key={mois}>
-                  <h3>{`Mois: ${mois}`}</h3>
-                  {Object.keys(organizedData[annee][mois]).map((weekNumber) => (
-                    <div key={weekNumber}>
-                      <h4>{`Semaine: ${weekNumber}`}</h4>
-                      {Object.keys(organizedData[annee][mois][weekNumber]).map(
-                        (dateKey) => (
-                          <div key={dateKey}>
-                            <h5>Jour: {dateKey}</h5>
-                            {Object.keys(
-                              organizedData[annee][mois][weekNumber][dateKey]
-                            ).map((heure) => (
-                              <div key={heure}>
-                                <p>Heure: {heure}:00</p>
-                                <p>
-                                  CB:{" "}
-                                  {
-                                    organizedData[annee][mois][weekNumber][
-                                      dateKey
-                                    ][heure].cb
-                                  }
-                                </p>
-                                <p>
-                                  CM:{" "}
-                                  {
-                                    organizedData[annee][mois][weekNumber][
-                                      dateKey
-                                    ][heure].cm
-                                  }
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )} */
-  }
 };
 export default HistoryData;

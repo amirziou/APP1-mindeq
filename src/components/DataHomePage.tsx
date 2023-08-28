@@ -6,14 +6,16 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
 import { Link } from "react-router-dom";
-import CbCmEarlier from "./CbCmEarlier";
-import ChartBar from "./ChartBar";
-import ChartBarGoog from "./ChartBarGoog";
-import HistoryData from "../firebase/HistoryData";
+import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
+import HomePData from "../firebase/HomePData";
 
-const Data = () => {
+const DataHomePage = () => {
   const { chaineArray, error } = ExtractingData();
-  const { Heartbeat } = HistoryData();
+
+  const { Heart } = HomePageHeartbeat();
+  console.log(Heart);
+  const { hourlyDataArray } = HomePData();
+  // console.log(hourlyDataArray);
 
   const backgroundColors = [
     "red.200",
@@ -27,14 +29,6 @@ const Data = () => {
     "pink.200",
   ];
 
-  const isHeartbeatOld = () => {
-    const currentTimestamp = Date.now();
-    console.log(Heartbeat);
-    const lastHeartbeatTimestamp = parseInt(Heartbeat); // Replace this with the actual way you're getting the timestamp
-    const timeDifference = currentTimestamp - lastHeartbeatTimestamp;
-    return timeDifference > 7000; // 7 seconds in milliseconds
-  };
-
   return (
     <>
       {error && <p> {error} </p>}
@@ -46,11 +40,11 @@ const Data = () => {
       ) : (*/}
       <div>
         <SimpleGrid
-          columns={{ base: 2, md: 4, lg: 6, xl: 8 }}
+          columns={{ base: 2, md: 4, lg: 5, xl: 7 }}
           spacing={4}
           padding={5}
         >
-          {chaineArray.map((chaine, index) => (
+          {hourlyDataArray.map((chaine, index) => (
             <Link key={index} to={"/chaine/" + chaine.id}>
               <Card
                 _hover={{
@@ -68,10 +62,10 @@ const Data = () => {
                     <Heading size="md" color="white">
                       Chaine {chaine.id}
                     </Heading>
-                    {isHeartbeatOld() ? (
-                      <MdGppGood color="gray" />
+                    {Heart[chaine.id] ? (
+                      <MdGppGood color="gray" size={25} />
                     ) : (
-                      <AiFillCloseCircle color="red" />
+                      <AiFillCloseCircle color="red" size={25} />
                     )}
                     {/* <MdGppGood color="gray" /> */}
                   </HStack>
@@ -79,7 +73,7 @@ const Data = () => {
                     Couturière <br /> Client: MAZEN <br /> Qt: 200
                   </Text>
 
-                  {chaine.Etat === 1 ? (
+                  {Heart[chaine.id] === true ? (
                     <CbCm cb={chaine.cb} cm={chaine.cm} />
                   ) : null}
                 </CardHeader>
@@ -97,4 +91,4 @@ const Data = () => {
   );
 };
 
-export default Data;
+export default DataHomePage;

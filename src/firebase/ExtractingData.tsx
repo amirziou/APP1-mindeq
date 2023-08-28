@@ -22,7 +22,7 @@ const ExtractingData = () => {
 
   useEffect(() => {
     console.log("start extracting");
-    const starCountRef = ref(db, "/");
+    const starCountRef = ref(db, "/Projet0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       console.log("requesting");
