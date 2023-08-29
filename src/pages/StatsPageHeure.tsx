@@ -65,7 +65,7 @@ const StatsPageHeure = () => {
                   </CardHeader>
                   <Divider />
                   <CardBody>
-                    <TableContainer>
+                    <TableContainer marginBottom={10}>
                       <Table size="sm">
                         <Thead>
                           <Tr>
@@ -76,14 +76,18 @@ const StatsPageHeure = () => {
                           </Tr>
                         </Thead>
                         <Tbody>
-                          <Tr>
-                            <Td>CB</Td>
+                          <Tr backgroundColor="rgba(53, 162, 235, 0.25)">
+                            <Td>
+                              <strong>CB</strong>
+                            </Td>
                             {Object.keys(data).map((heure) => (
                               <Td key={heure}>{data[heure].cb}</Td>
                             ))}
                           </Tr>
                           <Tr>
-                            <Td>CM</Td>
+                            <Td>
+                              <strong>CM</strong>
+                            </Td>
                             {Object.keys(data).map((heure) => (
                               <Td key={heure}>{data[heure].cm}</Td>
                             ))}
@@ -111,6 +115,7 @@ const StatsPageHeure = () => {
                                 (heure) => data[heure].cb
                               ),
 
+                              //backgroundColor: "rgba(00, 160, 130, 0.5)",
                               backgroundColor: "rgba(53, 162, 235, 0.5)",
                             },
                           ],

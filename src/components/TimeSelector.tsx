@@ -6,7 +6,7 @@ interface Props {
 }
 
 const TimeSelector = ({ onTimeSet }: Props) => {
-  const tabs = ["heure", "jour", "semaine", "mois"];
+  const tabs = ["jour", "mois", "année"];
   const [selectedTab, setSelectedTab] = useState<string>(
     localStorage.getItem("selectedTab") || tabs[0]
   );

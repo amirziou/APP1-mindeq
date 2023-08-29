@@ -14,6 +14,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BsPlus } from "react-icons/bs";
 
 const schema = z.object({
   client: z
@@ -63,7 +64,18 @@ const DialogForm = ({ onSubmit }: Props) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Ajouter une Production</Button>
+      <Button
+        size="md"
+        height="48px"
+        width="40%"
+        marginX={10}
+        border="2px"
+        backgroundColor="green.100"
+        onClick={onOpen}
+      >
+        <BsPlus size={25} />
+        Nouveau
+      </Button>
 
       <AlertDialog
         motionPreset="slideInBottom"

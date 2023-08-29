@@ -27,12 +27,13 @@ const HomePage = () => {
       <GridItem area={"main"}>
         {/* <TableDemo />*/}
         {/* <TableDemoTwo />*/}
-        <TimeSelector
+        {/* <TimeSelector
           onTimeSet={(a: string) => {
             setTime(a);
           }}
-        />
-        {Time === "heure" ? <DataHomePage /> : null}
+        /> */}
+
+        <DataHomePage />
 
         {/* <ChartBar /> */}
       </GridItem>

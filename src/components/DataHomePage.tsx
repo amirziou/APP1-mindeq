@@ -17,14 +17,39 @@ import { Link } from "react-router-dom";
 import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
 import CbCmTotal from "./CbCmTotal";
+import DialogForm from "../pages/DialogForm";
+
+interface ClientData {
+  Reference: string;
+  bonne: number;
+  client: string;
+  faible: number;
+  moyenne: number;
+  id: string;
+  // Other properties
+}
+
+interface ClientObject {
+  [id: string]: {
+    data: ClientData;
+    // Other properties
+  };
+}
 
 const DataHomePage = () => {
   const { chaineArray, error } = ExtractingData();
 
   const { Heart } = HomePageHeartbeat();
   console.log(Heart);
-  const { hourlyDataArray, dailyData, cumulativeData } = HomePData();
-  // console.log(dailyData);
+  //   const { hourlyDataArray, dailyData, cumulativeData, Client } : {
+  //     hourlyDataArray: any[]; // Define the actual type if possible
+  //     dailyData: any; // Define the actual type if possible
+  //     cumulativeData: any;
+  //   Client: ClientObject,
+  // } = HomePData();
+  const { hourlyDataArray, dailyData, cumulativeData, Client } = HomePData();
+  console.log("Client");
+  console.log(Client);
 
   const backgroundColors = [
     "red.200",
@@ -92,7 +117,23 @@ const DataHomePage = () => {
                   <Flex justifyContent="space-between" alignItems="center">
                     <HStack>
                       <Text fontSize={16} color="gray.600" marginTop={17}>
-                        Couturière <br /> Client: MAZEN <br /> Qt: 200
+                        Client:{" "}
+                        {Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.client}{" "}
+                        <br />
+                        Ref:{" "}
+                        {Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.Reference}
+                        <br />
+                        Qte:{" "}
+                        {Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.qte}
                       </Text>
                     </HStack>
                     {Heart[chaine.id] === true && (

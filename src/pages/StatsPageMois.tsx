@@ -46,7 +46,7 @@ const StatsPageMois = () => {
                       </CardHeader>
                       <Divider />
                       <CardBody>
-                        <TableContainer>
+                        <TableContainer marginBottom={10}>
                           <Table size="sm">
                             <Thead>
                               <Tr>
@@ -59,8 +59,10 @@ const StatsPageMois = () => {
                               </Tr>
                             </Thead>
                             <Tbody>
-                              <Tr>
-                                <Td>CB</Td>
+                              <Tr backgroundColor="rgba(53, 162, 235, 0.25)">
+                                <Td>
+                                  <strong>CB</strong>
+                                </Td>
                                 {Object.keys(
                                   organizedDataMois[annee][mois]
                                 ).map((day) => (
@@ -70,7 +72,9 @@ const StatsPageMois = () => {
                                 ))}
                               </Tr>
                               <Tr>
-                                <Td>CM</Td>
+                                <Td>
+                                  <strong>CM</strong>
+                                </Td>
                                 {Object.keys(
                                   organizedDataMois[annee][mois]
                                 ).map((day) => (
@@ -82,6 +86,7 @@ const StatsPageMois = () => {
                             </Tbody>
                           </Table>
                         </TableContainer>
+
                         <div
                           key={mois}
                           style={{ width: "100%", height: "400px" }}
@@ -95,6 +100,16 @@ const StatsPageMois = () => {
                               ).map((day) => day),
                               datasets: [
                                 {
+                                  label: "Pièces défectueuses CM",
+                                  data: Object.keys(
+                                    organizedDataMois[annee][mois]
+                                  ).map(
+                                    (day) =>
+                                      organizedDataMois[annee][mois][day].cm
+                                  ),
+                                  backgroundColor: "rgba(255, 99, 132, 0.5)",
+                                },
+                                {
                                   label: "Production CB",
                                   data: Object.keys(
                                     organizedDataMois[annee][mois]
@@ -103,16 +118,6 @@ const StatsPageMois = () => {
                                       organizedDataMois[annee][mois][day].cb
                                   ),
 
-                                  backgroundColor: "rgba(255, 99, 132, 0.5)",
-                                },
-                                {
-                                  label: "Pièces défectueuses CM",
-                                  data: Object.keys(
-                                    organizedDataMois[annee][mois]
-                                  ).map(
-                                    (day) =>
-                                      organizedDataMois[annee][mois][day].cm
-                                  ),
                                   backgroundColor: "rgba(53, 162, 235, 0.5)",
                                 },
                               ],
