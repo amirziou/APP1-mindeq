@@ -15,12 +15,7 @@ const CbCm = ({ cb, cm, b, m }: Props) => {
     <>
       <HStack>
         <VStack marginTop={4}>
-          <Text
-            marginBottom={1}
-            fontSize={16}
-            color="gray.600"
-            fontWeight="bold"
-          >
+          <Text marginBottom={1} fontSize={16} color="white" fontWeight="bold">
             Heure
           </Text>
           <Badge
@@ -43,12 +38,7 @@ const CbCm = ({ cb, cm, b, m }: Props) => {
         </VStack>
 
         <VStack marginTop={4}>
-          <Text
-            marginBottom={1}
-            fontSize={16}
-            color="gray.600"
-            fontWeight="bold"
-          >
+          <Text marginBottom={1} fontSize={16} color="white" fontWeight="bold">
             Jour
           </Text>
           <Badge

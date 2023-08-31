@@ -3,7 +3,6 @@ import { onValue, ref } from "firebase/database";
 import axiosClient from "../firebase/axios-client";
 import { CanceledError } from "axios";
 import { db } from "../../config";
-import { useParams } from "react-router-dom";
 
 interface ChaineData {
   Etat: string;
@@ -40,6 +39,7 @@ interface dataEntry {
 }
 
 interface data {
+  timestamp: string;
   Reference: string;
   bonne: number;
   client: string;
@@ -65,9 +65,57 @@ const HomePData = () => {
     [chaineId: string]: ChaineHourlyData;
   }>({});
   const [error, setError] = useState("");
+  const [TimestampForm, setTimestampForm] = useState(() => {
+    const storedTimestamp = localStorage.getItem("TimestampForm");
+    return storedTimestamp !== null ? parseInt(storedTimestamp) : -1;
+  });
 
   useEffect(() => {
-    console.log("start extracting chaine data for all IDs");
+    const starCountRef = ref(db, "/client");
+    onValue(starCountRef, (snapshot) => {
+      const controller = new AbortController();
+      axiosClient
+        .get("/client.json", {
+          signal: controller.signal,
+        })
+        .then((res) => {
+          // console.log("importing data");
+          //console.log(res.data);
+          setClient(res.data);
+          if (Array.isArray(res.data)) {
+            res.data.forEach((entry) => {
+              if (entry && entry.data) {
+                // console.log("entry");
+                //console.log(entry);
+                const timestamp = entry.data.timestamp;
+                //console.log("timestamp");
+                //console.log(timestamp);
+                if (timestamp) {
+                  console.log(
+                    `Locale storage TimestampForm for ID ${entry.data.id}`
+                  );
+                  localStorage.removeItem(`TimestampForm_${entry.data.id}`);
+                  console.log(`TimestampForm_${entry.data.id}`);
+                  localStorage.setItem(
+                    `TimestampForm_${entry.data.id}`,
+                    timestamp.toString()
+                  );
+                }
+              }
+            });
+          }
+        })
+        .catch((err: Error) => {
+          if (err instanceof CanceledError) return;
+          setError(err.message);
+        });
+
+      return () => controller.abort();
+    });
+  }, []);
+
+  useEffect(() => {
+    //console.log("start extracting chaine data for all IDs");
 
     const starCountRef = ref(db, "/HistoryPrjt0");
     onValue(starCountRef, (snapshot) => {
@@ -95,6 +143,7 @@ const HomePData = () => {
           const cumulativeData: { [chaineId: string]: ChaineHourlyData } = {};
 
           for (const chaineId in data) {
+            console.log(`TimestampForm_${chaineId}`);
             const chaineRecord = data[chaineId];
             let cbSum = 0;
             let cmSum = 0;
@@ -104,17 +153,30 @@ const HomePData = () => {
             let cmCumulative = 0;
 
             for (const timestamp in chaineRecord) {
-              cbCumulative += parseInt(chaineRecord[timestamp].cb);
-              cmCumulative += parseInt(chaineRecord[timestamp].cm);
+              const numericId = parseInt(chaineId.replace("chaine", ""));
+              const key = `TimestampForm_${numericId.toString()}`;
+              //console.log("Constructed Key:", key);
+              const storedTimestamp = localStorage.getItem(key);
+              // console.log(storedTimestamp);
+
               const recordTimestamp =
                 parseInt(chaineRecord[timestamp].timestamp) * 1000;
 
-              if (recordTimestamp >= currentDayStart) {
+              if (recordTimestamp >= Number(storedTimestamp)) {
+                cbCumulative += parseInt(chaineRecord[timestamp].cb);
+                cmCumulative += parseInt(chaineRecord[timestamp].cm);
+              }
+
+              if (
+                recordTimestamp >= currentDayStart &&
+                recordTimestamp >= Number(storedTimestamp)
+              ) {
                 cbDailySum += parseInt(chaineRecord[timestamp].cb);
                 cmDailySum += parseInt(chaineRecord[timestamp].cm);
               }
 
               if (
+                recordTimestamp >= Number(storedTimestamp) &&
                 recordTimestamp >= currentTime - 3600000 && // Last hour timestamp
                 recordTimestamp <= currentTime
               ) {
@@ -152,31 +214,12 @@ const HomePData = () => {
 
       return () => controller.abort();
     });
-  }, []);
+  }, [TimestampForm]);
 
-  useEffect(() => {
-    const starCountRef = ref(db, "/client");
-    onValue(starCountRef, (snapshot) => {
-      const controller = new AbortController();
-      axiosClient
-        .get("/client.json", {
-          signal: controller.signal,
-        })
-        .then((res) => {
-          console.log("importing data");
-          console.log(res.data);
-          setClient(res.data);
-        })
-        .catch((err: Error) => {
-          if (err instanceof CanceledError) return;
-          setError(err.message);
-        });
-
-      return () => controller.abort();
-    });
-  }, []);
-
-  console.log(Client && Client[1] && Client[1].data && Client[1].data.client);
+  //  console.log({Client &&
+  //   Client[1] &&
+  //   Client[1].data &&
+  //   Client[1].data.client});
 
   // ...
 

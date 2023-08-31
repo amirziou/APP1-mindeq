@@ -12,7 +12,7 @@ const CbCm = ({ cb, cm }: Props) => {
   return (
     <>
       <VStack marginTop={4}>
-        <Text marginBottom={1} fontSize={16} color="gray.600" fontWeight="bold">
+        <Text marginBottom={1} fontSize={16} color="white" fontWeight="bold">
           Totaliseur
         </Text>
         <Badge

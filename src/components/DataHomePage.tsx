@@ -1,15 +1,7 @@
 import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
-import {
-  Box,
-  Divider,
-  Flex,
-  HStack,
-  Heading,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
@@ -17,30 +9,12 @@ import { Link } from "react-router-dom";
 import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
 import CbCmTotal from "./CbCmTotal";
-import DialogForm from "../pages/DialogForm";
-
-interface ClientData {
-  Reference: string;
-  bonne: number;
-  client: string;
-  faible: number;
-  moyenne: number;
-  id: string;
-  // Other properties
-}
-
-interface ClientObject {
-  [id: string]: {
-    data: ClientData;
-    // Other properties
-  };
-}
 
 const DataHomePage = () => {
   const { chaineArray, error } = ExtractingData();
 
   const { Heart } = HomePageHeartbeat();
-  console.log(Heart);
+  // console.log(Heart);
   //   const { hourlyDataArray, dailyData, cumulativeData, Client } : {
   //     hourlyDataArray: any[]; // Define the actual type if possible
   //     dailyData: any; // Define the actual type if possible
@@ -48,14 +22,19 @@ const DataHomePage = () => {
   //   Client: ClientObject,
   // } = HomePData();
   const { hourlyDataArray, dailyData, cumulativeData, Client } = HomePData();
-  console.log("Client");
-  console.log(Client);
+  //console.log("Client");
+  //console.log(Client);
 
   const backgroundColors = [
-    "red.200",
-    "green.200",
-    "teal.200",
-    "blue.200",
+    //"red.200",
+    //"rgb(226,70,128)",
+    "rgb(105,107,245)",
+    //"green.200",
+    "rgb(117,124,164)",
+    //"teal.200",
+    "rgb(78,191,193)",
+    //"blue.200",
+    "	#2E8B57",
     "cyan.200",
     "orange.200",
     "red.300",
@@ -109,14 +88,19 @@ const DataHomePage = () => {
                       Chaine {chaine.id}
                     </Heading>
                     {Heart[chaine.id] ? (
-                      <MdGppGood color="gray" size={25} />
+                      <MdGppGood color="#37FD12" size={25} />
                     ) : (
                       <AiFillCloseCircle color="red" size={25} />
                     )}
                   </HStack>
                   <Flex justifyContent="space-between" alignItems="center">
                     <HStack>
-                      <Text fontSize={16} color="gray.600" marginTop={17}>
+                      <Text
+                        fontSize={16}
+                        color="white"
+                        marginTop={17}
+                        fontWeight="bold"
+                      >
                         Client:{" "}
                         {Client &&
                           Client[chaine.id] &&
@@ -128,12 +112,35 @@ const DataHomePage = () => {
                           Client[chaine.id] &&
                           Client[chaine.id].data &&
                           Client[chaine.id].data.Reference}
-                        <br />
+                        {/* <br />
                         Qte:{" "}
                         {Client &&
                           Client[chaine.id] &&
                           Client[chaine.id].data &&
-                          Client[chaine.id].data.qte}
+                          Client[chaine.id].data.qte} */}
+                        <br />
+                        {Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.timestamp && (
+                            <span>
+                              Date départ: <br />
+                              {(() => {
+                                const date = new Date(
+                                  Client[chaine.id].data.timestamp
+                                );
+                                const day = date.getDate();
+                                const month = date.getMonth() + 1;
+                                const year = date.getFullYear();
+                                const hours = date.getHours();
+                                const minutes = date
+                                  .getMinutes()
+                                  .toString()
+                                  .padStart(2, "0"); // Format minutes with leading zero if needed
+                                return `${day}/${month}/${year} ${hours}:${minutes}`;
+                              })()}
+                            </span>
+                          )}
                       </Text>
                     </HStack>
                     {Heart[chaine.id] === true && (

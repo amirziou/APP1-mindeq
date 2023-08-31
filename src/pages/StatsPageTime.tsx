@@ -12,6 +12,7 @@ import { db } from "../../config";
 import { Chaine } from "../firebase/ExtractingData";
 import axiosClient from "../firebase/axios-client";
 import { useParams } from "react-router-dom";
+import StatsPageAnn from "./StatsPageAnn";
 interface Data {
   Reference: string;
   bonne: number;
@@ -26,8 +27,6 @@ const StatsPageTime = () => {
   const [Time, setTime] = useState("");
   const { id } = useParams();
 
-  console.log(Time);
-
   return (
     <>
       <TimeSelector
@@ -39,11 +38,12 @@ const StatsPageTime = () => {
       <DialogForm
         onSubmit={(data) => {
           data.id = id;
+          data.timestamp = Date.now();
           axiosClient
             .put("/client/" + id + ".json", { data })
             .then((res) => {
-              console.log("going data");
-              console.log(res.data);
+              // console.log("going data");
+              //console.log(res.data);
             })
             .catch((err) => {
               if (err instanceof CanceledError) return;
@@ -54,6 +54,7 @@ const StatsPageTime = () => {
       {Time === "jour" ? <StatsPageHeure /> : null}
       {/* {Time === "jour" ? <StatsPageJour /> : null} */}
       {Time === "mois" ? <StatsPageMois /> : null}
+      {Time === "année" ? <StatsPageAnn /> : null}
     </>
   );
 };

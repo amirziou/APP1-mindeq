@@ -4,10 +4,8 @@ import { Chaine } from "../firebase/ExtractingData";
 import axiosClient from "../firebase/axios-client";
 import { db } from "../../config";
 import { onValue, ref } from "firebase/database";
-
 import { CanceledError } from "axios";
 
-let b = 0;
 export interface GroupedData {
   [year: string]: {
     [month: string]: {
@@ -51,6 +49,11 @@ const HistoryData = () => {
   const [ONEchaineArray, setONEchaineArray] = useState<Chaine>([]);
   const { id } = useParams();
   const [organizedData, setOrganizedData] = useState<GroupedData>({});
+  const [organizedDataYear, setOrganizedDataYear] = useState<{
+    [year: string]: {
+      [month: string]: { cb: number; cm: number };
+    };
+  }>({});
   const [organizedDataJour, setOrganizedDataJour] = useState<GroupedDataJour>(
     {}
   );
@@ -69,7 +72,6 @@ const HistoryData = () => {
   };
 
   useEffect(() => {
-    console.log("start extracting one chaine data");
     const starCountRef = ref(db, "/HistoryPrjt0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
@@ -81,7 +83,6 @@ const HistoryData = () => {
           const cha = { ...res.data };
           delete cha.heartbeat;
           const ch: Chaine = Object.values(cha);
-          console.log(res.data.heartbeat);
 
           setHeartbeat(res.data.heartbeat);
           setONEchaineArray(ch);
@@ -104,6 +105,11 @@ const HistoryData = () => {
     });
 
     const groupedData: GroupedData = {};
+    const groupedDataYear: {
+      [year: string]: {
+        [month: string]: { cb: number; cm: number };
+      };
+    } = {};
     const groupedDataJour: GroupedDataJour = {};
     const groupedDataMois: GroupedDataMois = {};
 
@@ -111,7 +117,7 @@ const HistoryData = () => {
       const heu = item.timestamp.getHours();
       const heure = heu + ":00";
 
-      const jour = item.timestamp.getDate(); //gives me day from 1-31
+      const jour = item.timestamp.getDate();
       const mois = item.timestamp.getMonth() + 1;
       const annee = item.timestamp.getFullYear();
       const dateKey = jour + "/" + mois + "/" + annee;
@@ -138,6 +144,16 @@ const HistoryData = () => {
 
       groupedData[annee][mois][weekNumber][dateKey][heure].cb += a;
       groupedData[annee][mois][weekNumber][dateKey][heure].cm += b;
+
+      if (!groupedDataYear[annee]) {
+        groupedDataYear[annee] = {};
+      }
+      if (!groupedDataYear[annee][mois]) {
+        groupedDataYear[annee][mois] = { cb: 0, cm: 0 };
+      }
+
+      groupedDataYear[annee][mois].cb += a;
+      groupedDataYear[annee][mois].cm += b;
 
       if (!groupedDataJour[annee]) {
         groupedDataJour[annee] = {};
@@ -167,21 +183,22 @@ const HistoryData = () => {
 
       groupedDataMois[annee][mois][dateKey].cb += a;
       groupedDataMois[annee][mois][dateKey].cm += b;
-
-      setOrganizedData(groupedData);
-      setOrganizedDataJour(groupedDataJour);
-      setOrganizedDataMois(groupedDataMois);
     });
-  }, [ONEchaineArray]);
 
-  // console.log(organizedData);
+    setOrganizedData(groupedData);
+    setOrganizedDataYear(groupedDataYear);
+    setOrganizedDataJour(groupedDataJour);
+    setOrganizedDataMois(groupedDataMois);
+  }, [ONEchaineArray]);
 
   return {
     Heartbeat,
     organizedData,
+    organizedDataYear,
     organizedDataJour,
     organizedDataMois,
     error,
   };
 };
+
 export default HistoryData;

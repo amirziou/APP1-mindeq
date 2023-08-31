@@ -60,9 +60,9 @@ const StatsPageHeure = () => {
             <div key={dateKey}>
               <SimpleGrid spacing={4} padding={5}>
                 <Card key={dateKey} borderRadius={13}>
-                  <CardHeader>
-                    <h5>Date: {dateKey}</h5>
-                  </CardHeader>
+                  <br></br>
+                  <h5 style={{ marginLeft: "20px" }}>Date: {dateKey}</h5>
+
                   <Divider />
                   <CardBody>
                     <TableContainer marginBottom={10}>
