@@ -21,11 +21,11 @@ const ExtractingData = () => {
   const [Etat, setEtat] = useState(0);
 
   useEffect(() => {
-    console.log("start extracting");
+    // console.log("start extracting");
     const starCountRef = ref(db, "/Projet0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
-      console.log("requesting");
+      // console.log("requesting");
 
       setLoading(true);
       axiosClient

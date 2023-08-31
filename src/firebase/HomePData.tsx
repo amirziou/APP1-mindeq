@@ -91,11 +91,11 @@ const HomePData = () => {
                 //console.log("timestamp");
                 //console.log(timestamp);
                 if (timestamp) {
-                  console.log(
-                    `Locale storage TimestampForm for ID ${entry.data.id}`
-                  );
+                  // console.log(
+                  //   `Locale storage TimestampForm for ID ${entry.data.id}`
+                  // );
                   localStorage.removeItem(`TimestampForm_${entry.data.id}`);
-                  console.log(`TimestampForm_${entry.data.id}`);
+                  // console.log(`TimestampForm_${entry.data.id}`);
                   localStorage.setItem(
                     `TimestampForm_${entry.data.id}`,
                     timestamp.toString()
@@ -143,7 +143,7 @@ const HomePData = () => {
           const cumulativeData: { [chaineId: string]: ChaineHourlyData } = {};
 
           for (const chaineId in data) {
-            console.log(`TimestampForm_${chaineId}`);
+            // console.log(`TimestampForm_${chaineId}`);
             const chaineRecord = data[chaineId];
             let cbSum = 0;
             let cmSum = 0;

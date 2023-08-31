@@ -2,7 +2,7 @@ import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { Flex, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
-import { Card, CardBody, CardHeader } from "@chakra-ui/card";
+import { Card, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
 import { Link } from "react-router-dom";
@@ -163,14 +163,8 @@ const DataHomePage = () => {
                         m={dailyDataArray[chaine.id - 1]?.cm}
                       />
                     ) : null}
-                    {/* You can also add daily data here if needed */}
                   </HStack>
                 </CardHeader>
-                {/* <Divider /> */}
-                {/* <CardBody> */}
-                {/* <CbCmEarlier cb={chaine.cb} cm={chaine.cm} /> */}
-                {/* ID: {chaine.id}, CB: {chaine.cb}, CM: {chaine.cm} */}
-                {/* </CardBody> */}
               </Card>
             </Link>
           ))}
