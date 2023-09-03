@@ -8,6 +8,11 @@ export default defineConfig({
     react(),
     VitePWA({ 
       manifest:{
+        name: 'Mindeq',
+        short_name: 'Mindeq app',
+        description: 'Mindeq app version 1',
+        background_color: '#000000',
+
         icons:[
           {
             src:"./iconApp.png",
