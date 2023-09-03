@@ -1,10 +1,4 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
 import ExtractingData, { Chaine } from "./firebase/ExtractingData";
-import Data from "./components/DataHomePage";
-import TableDemo from "./components/TableDemo";
-import TableDemoTwo from "./components/TableDemoTwo";
-import TimeSelector from "./components/TimeSelector";
 
 const App = () => {
   const {
