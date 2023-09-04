@@ -13,6 +13,10 @@ import { Chaine } from "../firebase/ExtractingData";
 import axiosClient from "../firebase/axios-client";
 import { useParams } from "react-router-dom";
 import StatsPageAnn from "./StatsPageAnn";
+import { Box, HStack } from "@chakra-ui/react";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { Link } from "react-router-dom";
+
 interface Data {
   Reference: string;
   bonne: number;
@@ -29,11 +33,21 @@ const StatsPageTime = () => {
 
   return (
     <>
-      <TimeSelector
-        onTimeSet={(a: string) => {
-          setTime(a);
-        }}
-      />
+      <HStack spacing={5} alignItems="center">
+        <Box marginX={7}>
+          <Link to={"/"}>
+            <MdArrowBackIosNew size={30} />
+          </Link>
+        </Box>
+
+        <Box flex="1" textAlign="center">
+          <TimeSelector
+            onTimeSet={(a: string) => {
+              setTime(a);
+            }}
+          />
+        </Box>
+      </HStack>
 
       <DialogForm
         onSubmit={(data) => {
