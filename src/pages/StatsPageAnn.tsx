@@ -63,7 +63,7 @@ const StatsPageAnn = () => {
                         <Tbody>
                           <Tr backgroundColor="rgba(53, 162, 235, 0.25)">
                             <Td>
-                              <strong>CB</strong>
+                              <strong>Production</strong>
                             </Td>
                             {Object.keys(organizedDataYear[annee]).map(
                               (mois) => (
@@ -75,7 +75,7 @@ const StatsPageAnn = () => {
                           </Tr>
                           <Tr>
                             <Td>
-                              <strong>CM</strong>
+                              <strong>Retouche</strong>
                             </Td>
                             {Object.keys(organizedDataYear[annee]).map(
                               (mois) => (
@@ -99,14 +99,14 @@ const StatsPageAnn = () => {
                           ),
                           datasets: [
                             {
-                              label: "Pièces défectueuses CM",
+                              label: "Retouche",
                               data: Object.keys(organizedDataYear[annee]).map(
                                 (mois) => organizedDataYear[annee][mois].cm
                               ),
                               backgroundColor: "rgba(255, 99, 132, 0.5)",
                             },
                             {
-                              label: "Production CB",
+                              label: "Production",
                               data: Object.keys(organizedDataYear[annee]).map(
                                 (mois) => organizedDataYear[annee][mois].cb
                               ),

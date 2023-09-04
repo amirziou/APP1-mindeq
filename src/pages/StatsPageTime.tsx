@@ -13,7 +13,7 @@ import { Chaine } from "../firebase/ExtractingData";
 import axiosClient from "../firebase/axios-client";
 import { useParams } from "react-router-dom";
 import StatsPageAnn from "./StatsPageAnn";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Text } from "@chakra-ui/react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -33,38 +33,46 @@ const StatsPageTime = () => {
 
   return (
     <>
-      <HStack spacing={5} alignItems="center">
-        <Box marginX={7}>
+      <Flex alignItems="center" paddingX={5} paddingY={7}>
+        <Box>
           <Link to={"/"}>
             <MdArrowBackIosNew size={30} />
           </Link>
         </Box>
 
-        <Box flex="1" textAlign="center">
+        <Box position="absolute" left="53%" transform="translateX(-50%)">
           <TimeSelector
             onTimeSet={(a: string) => {
               setTime(a);
             }}
           />
         </Box>
+      </Flex>
+
+      <HStack justifyContent="space-between" alignItems="center">
+        <Box>
+          <DialogForm
+            onSubmit={(data) => {
+              data.id = id;
+              data.timestamp = Date.now();
+              axiosClient
+                .put("/client/" + id + ".json", { data })
+                .then((res) => {
+                  // console.log("going data");
+                  //console.log(res.data);
+                })
+                .catch((err) => {
+                  if (err instanceof CanceledError) return;
+                });
+            }}
+          />
+        </Box>
+        <Box marginX={7}>
+          <Text as="kbd" fontSize="lg">
+            Chaine {id}
+          </Text>
+        </Box>
       </HStack>
-
-      <DialogForm
-        onSubmit={(data) => {
-          data.id = id;
-          data.timestamp = Date.now();
-          axiosClient
-            .put("/client/" + id + ".json", { data })
-            .then((res) => {
-              // console.log("going data");
-              //console.log(res.data);
-            })
-            .catch((err) => {
-              if (err instanceof CanceledError) return;
-            });
-        }}
-      />
-
       {Time === "jour" ? <StatsPageHeure /> : null}
       {/* {Time === "jour" ? <StatsPageJour /> : null} */}
       {Time === "mois" ? <StatsPageMois /> : null}

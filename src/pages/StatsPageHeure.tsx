@@ -78,7 +78,7 @@ const StatsPageHeure = () => {
                         <Tbody>
                           <Tr backgroundColor="rgba(53, 162, 235, 0.25)">
                             <Td>
-                              <strong>CB</strong>
+                              <strong>Production</strong>
                             </Td>
                             {Object.keys(data).map((heure) => (
                               <Td key={heure}>{data[heure].cb}</Td>
@@ -86,7 +86,7 @@ const StatsPageHeure = () => {
                           </Tr>
                           <Tr>
                             <Td>
-                              <strong>CM</strong>
+                              <strong>Retouche</strong>
                             </Td>
                             {Object.keys(data).map((heure) => (
                               <Td key={heure}>{data[heure].cm}</Td>
@@ -103,14 +103,14 @@ const StatsPageHeure = () => {
                           labels: Object.keys(data),
                           datasets: [
                             {
-                              label: "Retouches",
+                              label: "Retouche",
                               data: Object.keys(data).map(
                                 (heure) => data[heure].cm
                               ),
                               backgroundColor: "rgba(255, 99, 132, 0.5)",
                             },
                             {
-                              label: "Production CB",
+                              label: "Production",
                               data: Object.keys(data).map(
                                 (heure) => data[heure].cb
                               ),

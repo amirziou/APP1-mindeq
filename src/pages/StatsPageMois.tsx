@@ -60,7 +60,7 @@ const StatsPageMois = () => {
                               <Tbody>
                                 <Tr backgroundColor="rgba(53, 162, 235, 0.25)">
                                   <Td>
-                                    <strong>CB</strong>
+                                    <strong>Production</strong>
                                   </Td>
                                   {Object.keys(
                                     organizedDataMois[annee][mois]
@@ -72,7 +72,7 @@ const StatsPageMois = () => {
                                 </Tr>
                                 <Tr>
                                   <Td>
-                                    <strong>CM</strong>
+                                    <strong>Retouche</strong>
                                   </Td>
                                   {Object.keys(
                                     organizedDataMois[annee][mois]
@@ -99,7 +99,7 @@ const StatsPageMois = () => {
                                 ).map((day) => day),
                                 datasets: [
                                   {
-                                    label: "Pièces défectueuses CM",
+                                    label: "Retouche",
                                     data: Object.keys(
                                       organizedDataMois[annee][mois]
                                     ).map(
@@ -109,7 +109,7 @@ const StatsPageMois = () => {
                                     backgroundColor: "rgba(255, 99, 132, 0.5)",
                                   },
                                   {
-                                    label: "Production CB",
+                                    label: "Production",
                                     data: Object.keys(
                                       organizedDataMois[annee][mois]
                                     ).map(

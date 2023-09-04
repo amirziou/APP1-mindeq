@@ -74,7 +74,7 @@ const StatsPageJour = () => {
                                     ),
                                     datasets: [
                                       {
-                                        label: "Production CB",
+                                        label: "Production",
                                         data: Object.keys(
                                           organizedDataJour[annee][mois][
                                             weekNumber
@@ -89,7 +89,7 @@ const StatsPageJour = () => {
                                           "rgba(53, 162, 235, 0.5)",
                                       },
                                       {
-                                        label: "Pièces défectueuses CM",
+                                        label: "Retouche",
                                         data: Object.keys(
                                           organizedDataJour[annee][mois][
                                             weekNumber

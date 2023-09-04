@@ -94,55 +94,54 @@ const DataHomePage = () => {
                     )}
                   </HStack>
                   <Flex justifyContent="space-between" alignItems="center">
-                    <HStack>
-                      <Text
-                        fontSize={16}
-                        color="white"
-                        marginTop={17}
-                        fontWeight="bold"
-                      >
-                        Client:{" "}
-                        {Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.client}{" "}
-                        <br />
-                        Ref:{" "}
-                        {Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.Reference}
-                        {/* <br />
+                    <Text
+                      fontSize={16}
+                      color="white"
+                      marginTop={17}
+                      fontWeight="bold"
+                    >
+                      Client:{" "}
+                      {Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.client}{" "}
+                      <br />
+                      Ref:{" "}
+                      {Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.Reference}
+                      {/* <br />
                         Qte:{" "}
                         {Client &&
                           Client[chaine.id] &&
                           Client[chaine.id].data &&
                           Client[chaine.id].data.qte} */}
-                        <br />
-                        {Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.timestamp && (
-                            <span>
-                              Date départ: <br />
-                              {(() => {
-                                const date = new Date(
-                                  Client[chaine.id].data.timestamp
-                                );
-                                const day = date.getDate();
-                                const month = date.getMonth() + 1;
-                                const year = date.getFullYear();
-                                const hours = date.getHours();
-                                const minutes = date
-                                  .getMinutes()
-                                  .toString()
-                                  .padStart(2, "0"); // Format minutes with leading zero if needed
-                                return `${day}/${month}/${year} ${hours}:${minutes}`;
-                              })()}
-                            </span>
-                          )}
-                      </Text>
-                    </HStack>
+                      <br />
+                      {Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.timestamp && (
+                          <span>
+                            Date départ: <br />
+                            {(() => {
+                              const date = new Date(
+                                Client[chaine.id].data.timestamp
+                              );
+                              const day = date.getDate();
+                              const month = date.getMonth() + 1;
+                              const year = date.getFullYear();
+                              const hours = date.getHours();
+                              const minutes = date
+                                .getMinutes()
+                                .toString()
+                                .padStart(2, "0"); // Format minutes with leading zero if needed
+                              return `${day}/${month}/${year} ${hours}:${minutes}`;
+                            })()}
+                          </span>
+                        )}
+                    </Text>
+
                     {Heart[chaine.id] === true && (
                       <CbCmTotal
                         cb={cumulativeDataArray[chaine.id - 1]?.cb}

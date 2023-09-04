@@ -67,8 +67,8 @@ const DialogForm = ({ onSubmit }: Props) => {
       <Button
         size="md"
         height="48px"
-        width="40%"
-        marginX={10}
+        width="100%"
+        marginX={8}
         border="2px"
         backgroundColor="green.100"
         onClick={onOpen}
@@ -181,15 +181,15 @@ const DialogForm = ({ onSubmit }: Props) => {
                   />
                 </div>
                 <div className="col">
-                  <label htmlFor="Production bonne" className="form-label">
-                    Production bonne
+                  <label htmlFor="Production normale" className="form-label">
+                    Production normale
                   </label>
                   <input
                     {...register("bonne", { valueAsNumber: true })}
                     id="bonne"
                     type="number"
                     className="form-control"
-                    placeholder="Production bonne"
+                    placeholder="Production normale"
                     aria-label="bonne"
                   />
                 </div>
@@ -207,7 +207,7 @@ const DialogForm = ({ onSubmit }: Props) => {
                   type="submit"
                   style={{ marginLeft: "10px" }}
                 >
-                  Submit
+                  Confirmer
                 </button>
               </div>
             </form>
