@@ -4,10 +4,12 @@ import React from "react";
 interface Props {
   cb: number;
   cm: number;
+  faible: number;
+  moyenne: number;
 }
 
-const CbCm = ({ cb, cm }: Props) => {
-  let color = cb > 75 ? "green" : cb > 50 ? "yellow" : "red";
+const CbCm = ({ cb, cm, faible, moyenne }: Props) => {
+  let color = cb > moyenne ? "green" : cb > faible ? "yellow" : "red";
   let colorM = "red";
   return (
     <>

@@ -1,4 +1,3 @@
-import ExtractingData, { Chaine } from "../firebase/ExtractingData";
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { Flex, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
@@ -11,8 +10,6 @@ import HomePData from "../firebase/HomePData";
 import CbCmTotal from "./CbCmTotal";
 
 const DataHomePage = () => {
-  const { chaineArray, error } = ExtractingData();
-
   const { Heart } = HomePageHeartbeat();
   // console.log(Heart);
   //   const { hourlyDataArray, dailyData, cumulativeData, Client } : {
@@ -56,8 +53,6 @@ const DataHomePage = () => {
 
   return (
     <>
-      {error && <p> {error} </p>}
-
       {/*{isLoading ? (
         <div>
           <Spinner />
@@ -100,44 +95,92 @@ const DataHomePage = () => {
                       marginTop={17}
                       fontWeight="bold"
                     >
-                      Client:{" "}
+                      <span
+                        style={{
+                          color: "black",
+                          fontFamily: "Times New Roman",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Client:{" "}
+                      </span>
                       {Client &&
                         Client[chaine.id] &&
                         Client[chaine.id].data &&
                         Client[chaine.id].data.client}{" "}
                       <br />
-                      Ref:{" "}
+                      <span
+                        style={{
+                          color: "black",
+                          fontFamily: "Times New Roman",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Ref:{" "}
+                      </span>
                       {Client &&
                         Client[chaine.id] &&
                         Client[chaine.id].data &&
                         Client[chaine.id].data.Reference}
-                      {/* <br />
+                      <br />
+                      <span
+                        style={{
+                          color: "black",
+                          fontFamily: "Times New Roman",
+                          fontSize: "16px",
+                        }}
+                      >
                         Qte:{" "}
-                        {Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.qte} */}
+                      </span>
+                      {Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.qte}
                       <br />
                       {Client &&
                         Client[chaine.id] &&
                         Client[chaine.id].data &&
                         Client[chaine.id].data.timestamp && (
                           <span>
-                            Date départ: <br />
-                            {(() => {
-                              const date = new Date(
-                                Client[chaine.id].data.timestamp
-                              );
-                              const day = date.getDate();
-                              const month = date.getMonth() + 1;
-                              const year = date.getFullYear();
-                              const hours = date.getHours();
-                              const minutes = date
-                                .getMinutes()
-                                .toString()
-                                .padStart(2, "0"); // Format minutes with leading zero if needed
-                              return `${day}/${month}/${year} ${hours}:${minutes}`;
-                            })()}
+                            <span
+                              style={{
+                                color: "black",
+                                fontFamily: "Times New Roman",
+                                fontSize: "16px",
+                              }}
+                            >
+                              Départ:{" "}
+                            </span>
+                            <span
+                              style={{
+                                color: "white",
+                                fontFamily: "Arial",
+                                fontSize: "16px",
+                              }}
+                            >
+                              {(() => {
+                                const date = new Date(
+                                  Client[chaine.id].data.timestamp
+                                );
+                                const day = date
+                                  .getDate()
+                                  .toString()
+                                  .padStart(2, "0");
+                                const month = (date.getMonth() + 1)
+                                  .toString()
+                                  .padStart(2, "0");
+                                const year = date.getFullYear();
+                                const hours = date
+                                  .getHours()
+                                  .toString()
+                                  .padStart(2, "0");
+                                const minutes = date
+                                  .getMinutes()
+                                  .toString()
+                                  .padStart(2, "0");
+                                return `${hours}:${minutes} ${day}/${month}/${year} `;
+                              })()}
+                            </span>
                           </span>
                         )}
                     </Text>
@@ -146,6 +189,22 @@ const DataHomePage = () => {
                       <CbCmTotal
                         cb={cumulativeDataArray[chaine.id - 1]?.cb}
                         cm={cumulativeDataArray[chaine.id - 1]?.cm}
+                        faible={
+                          Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.faible !== undefined
+                            ? Client[chaine.id].data.faible
+                            : 50
+                        }
+                        moyenne={
+                          Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.moyenne !== undefined
+                            ? Client[chaine.id].data.moyenne
+                            : 75
+                        }
                       />
                     )}
                   </Flex>
@@ -160,6 +219,22 @@ const DataHomePage = () => {
                         cm={chaine.cm}
                         b={dailyDataArray[chaine.id - 1]?.cb}
                         m={dailyDataArray[chaine.id - 1]?.cm}
+                        faible={
+                          Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.faible !== undefined
+                            ? Client[chaine.id].data.faible
+                            : 50
+                        }
+                        moyenne={
+                          Client &&
+                          Client[chaine.id] &&
+                          Client[chaine.id].data &&
+                          Client[chaine.id].data.moyenne !== undefined
+                            ? Client[chaine.id].data.moyenne
+                            : 75
+                        }
                       />
                     ) : null}
                   </HStack>

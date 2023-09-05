@@ -6,10 +6,12 @@ interface Props {
   cm: number;
   b: number;
   m: number;
+  faible: number;
+  moyenne: number;
 }
 
-const CbCm = ({ cb, cm, b, m }: Props) => {
-  let color = cb > 75 ? "green" : cb > 50 ? "yellow" : "red";
+const CbCm = ({ cb, cm, b, m, faible, moyenne }: Props) => {
+  let color = cb > moyenne ? "green" : cb > faible ? "yellow" : "red";
   let colorM = "red";
   return (
     <>

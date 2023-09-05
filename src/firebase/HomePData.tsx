@@ -80,7 +80,7 @@ const HomePData = () => {
         })
         .then((res) => {
           // console.log("importing data");
-          //console.log(res.data);
+
           setClient(res.data);
           if (Array.isArray(res.data)) {
             res.data.forEach((entry) => {
@@ -205,6 +205,7 @@ const HomePData = () => {
               cm: hourlySumData[chaineId].cm,
             })
           );
+          setHourlyData(hourlySumData);
           setHourlyDataArray(hourlyDataArray);
         })
         .catch((err: Error) => {
@@ -216,10 +217,10 @@ const HomePData = () => {
     });
   }, [TimestampForm]);
 
-  //  console.log({Client &&
-  //   Client[1] &&
-  //   Client[1].data &&
-  //   Client[1].data.client});
+  // console.log({Client &&
+  // Client[1] &&
+  // Client[1].data &&
+  // Client[1].data.client});
 
   // ...
 
