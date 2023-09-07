@@ -11,8 +11,9 @@ interface Props {
 }
 
 const CbCm = ({ cb, cm, b, m, faible, moyenne }: Props) => {
-  let color = cb > moyenne ? "green" : cb > faible ? "yellow" : "red";
-  let colorM = "red";
+  // let color = cb > moyenne ? "green" : cb > faible ? "yellow" : "red";
+  let color = "gray";
+  let colorM = "gray";
   return (
     <>
       <HStack>

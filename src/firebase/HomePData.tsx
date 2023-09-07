@@ -143,6 +143,15 @@ const HomePData = () => {
             currentDate.getMonth(),
             currentDate.getDate()
           ).getTime();
+          const currentHourStart = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            currentDate.getDate(),
+            currentDate.getHours(),
+            0, // Minutes
+            0, // Seconds
+            0 // Milliseconds
+          ).getTime();
 
           const hourlySumData: { [chaineId: string]: ChaineHourlyData } = {};
           const dailySumData: { [chaineId: string]: ChaineHourlyData } = {};
@@ -185,8 +194,9 @@ const HomePData = () => {
 
               if (
                 recordTimestamp >= Number(storedTimestamp) &&
-                recordTimestamp >= currentTime - 3600000 && // Last hour timestamp
-                recordTimestamp <= currentTime
+                recordTimestamp >= currentHourStart
+                // recordTimestamp >= currentTime - 3600000
+                // && recordTimestamp <= currentTime
               ) {
                 cbSum += parseInt(chaineRecord[timestamp].cb);
                 cmSum += parseInt(chaineRecord[timestamp].cm);
@@ -206,15 +216,9 @@ const HomePData = () => {
           setCumulativeData(cumulativeData);
 
           // Convert hourlyData object to array for rendering
-          const hourlyDataArray = Object.keys(hourlySumData).map(
-            (chaineId) => ({
-              id: parseInt(chaineId.replace("chaine", "")), // Assuming chaineId is in the format "chaineX"
-              cb: hourlySumData[chaineId].cb,
-              cm: hourlySumData[chaineId].cm,
-            })
-          );
+
           setHourlyData(hourlySumData);
-          setHourlyDataArray(hourlyDataArray);
+          //  setHourlyDataArray(hourlyDataArray);
         })
         .catch((err: Error) => {
           if (err instanceof CanceledError) return;
@@ -228,7 +232,7 @@ const HomePData = () => {
   // ...
 
   return {
-    hourlyDataArray,
+    hourlyData,
     dailyData,
     cumulativeData,
     Client,

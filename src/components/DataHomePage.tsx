@@ -26,7 +26,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 const DataHomePage = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const { Heart } = HomePageHeartbeat();
-  const { hourlyDataArray, dailyData, cumulativeData, Client } = HomePData();
+  const { hourlyData, dailyData, cumulativeData, Client } = HomePData();
 
   const backgroundColors = [
     //"red.200",
@@ -56,6 +56,19 @@ const DataHomePage = () => {
     cb: dailyData[chaineId].cb,
     cm: dailyData[chaineId].cm,
   }));
+
+  const hourlyDataArray = Object.keys(hourlyData).map((chaineId) => ({
+    id: parseInt(chaineId.replace("chaine", "")), // Assuming chaineId is in the format "chaineX"
+    cb: hourlyData[chaineId].cb,
+    cm: hourlyData[chaineId].cm,
+  }));
+
+  console.log("hourlyDataArray");
+  console.log(hourlyDataArray);
+  console.log("dailyDataArray");
+  console.log(dailyDataArray);
+  console.log("cumulativeDataArray");
+  console.log(cumulativeDataArray);
 
   const userSignOut = () => {
     signOut(auth)
