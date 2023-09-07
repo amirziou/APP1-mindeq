@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Chaine } from "../firebase/ExtractingData";
 import axiosClient from "../firebase/axios-client";
 import { db } from "../../config";
 import { onValue, ref } from "firebase/database";
 import { CanceledError } from "axios";
+
+export type Chaine = {
+  id: number;
+  cb: number;
+  cm: number;
+  Etat: number;
+  timestamp: string;
+}[];
 
 export interface GroupedData {
   [year: string]: {
@@ -72,13 +79,18 @@ const HistoryData = () => {
   };
 
   useEffect(() => {
-    const starCountRef = ref(db, "/HistoryPrjt0");
+    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       axiosClient
-        .get("/HistoryPrjt0/chaine" + id + ".json", {
-          signal: controller.signal,
-        })
+        .get(
+          "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0/chaine" +
+            id +
+            ".json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+          {
+            signal: controller.signal,
+          }
+        )
         .then((res) => {
           const cha = { ...res.data };
           delete cha.heartbeat;

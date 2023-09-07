@@ -1,6 +1,13 @@
 import { MdGppGood } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { Flex, HStack, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  HStack,
+  Heading,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import { Card, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
@@ -9,18 +16,17 @@ import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
 import CbCmTotal from "./CbCmTotal";
 
+import { auth } from "../../config";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { set } from "firebase/database";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+
 const DataHomePage = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const { Heart } = HomePageHeartbeat();
-  // console.log(Heart);
-  //   const { hourlyDataArray, dailyData, cumulativeData, Client } : {
-  //     hourlyDataArray: any[]; // Define the actual type if possible
-  //     dailyData: any; // Define the actual type if possible
-  //     cumulativeData: any;
-  //   Client: ClientObject,
-  // } = HomePData();
   const { hourlyDataArray, dailyData, cumulativeData, Client } = HomePData();
-  //console.log("Client");
-  //console.log(Client);
 
   const backgroundColors = [
     //"red.200",
@@ -51,8 +57,35 @@ const DataHomePage = () => {
     cm: dailyData[chaineId].cm,
   }));
 
+  const userSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("sign out success");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const signOutButtonStyle: React.CSSProperties = {
+    position: "absolute",
+    top: "-43px", // Adjust the top position as needed
+    right: "10px", // Adjust the right position as needed
+  };
+
   return (
     <>
+      {/* <p>{`signed in ${userAuth.email} `}</p> */}
+
+      <div style={{ position: "relative" }}>
+        <Button
+          onClick={userSignOut}
+          style={signOutButtonStyle}
+          size="sm"
+          colorScheme="red"
+        >
+          {" "}
+          Déconnecter
+        </Button>
+      </div>
       {/*{isLoading ? (
         <div>
           <Spinner />
@@ -82,11 +115,13 @@ const DataHomePage = () => {
                     <Heading size="md" color="white">
                       Chaine {chaine.id}
                     </Heading>
-                    {Heart[chaine.id] ? (
-                      <MdGppGood color="#37FD12" size={25} />
-                    ) : (
-                      <AiFillCloseCircle color="red" size={25} />
-                    )}
+                    <span style={{ marginBottom: "10px" }}>
+                      {Heart[chaine.id] ? (
+                        <MdGppGood color="#37FD12" size={25} />
+                      ) : (
+                        <AiFillCloseCircle color="red" size={25} />
+                      )}
+                    </span>
                   </HStack>
                   <Flex justifyContent="space-between" alignItems="center">
                     <Text
@@ -162,6 +197,7 @@ const DataHomePage = () => {
                                 const date = new Date(
                                   Client[chaine.id].data.timestamp
                                 );
+                                //console.log(date);
                                 const day = date
                                   .getDate()
                                   .toString()
@@ -185,58 +221,58 @@ const DataHomePage = () => {
                         )}
                     </Text>
 
-                    {Heart[chaine.id] === true && (
-                      <CbCmTotal
-                        cb={cumulativeDataArray[chaine.id - 1]?.cb}
-                        cm={cumulativeDataArray[chaine.id - 1]?.cm}
-                        faible={
-                          Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.faible !== undefined
-                            ? Client[chaine.id].data.faible
-                            : 50
-                        }
-                        moyenne={
-                          Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.moyenne !== undefined
-                            ? Client[chaine.id].data.moyenne
-                            : 75
-                        }
-                      />
-                    )}
+                    {/* {Heart[chaine.id] === true && ( */}
+                    <CbCmTotal
+                      cb={cumulativeDataArray[chaine.id - 1]?.cb}
+                      cm={cumulativeDataArray[chaine.id - 1]?.cm}
+                      faible={
+                        Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.faible !== undefined
+                          ? Client[chaine.id].data.faible
+                          : 50
+                      }
+                      moyenne={
+                        Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.moyenne !== undefined
+                          ? Client[chaine.id].data.moyenne
+                          : 75
+                      }
+                    />
+                    {/* )} */}
                   </Flex>
                   <HStack
                     justifyContent="center"
                     alignItems="center"
                     flexDir="column"
                   >
-                    {Heart[chaine.id] === true ? (
-                      <CbCm
-                        cb={chaine.cb}
-                        cm={chaine.cm}
-                        b={dailyDataArray[chaine.id - 1]?.cb}
-                        m={dailyDataArray[chaine.id - 1]?.cm}
-                        faible={
-                          Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.faible !== undefined
-                            ? Client[chaine.id].data.faible
-                            : 50
-                        }
-                        moyenne={
-                          Client &&
-                          Client[chaine.id] &&
-                          Client[chaine.id].data &&
-                          Client[chaine.id].data.moyenne !== undefined
-                            ? Client[chaine.id].data.moyenne
-                            : 75
-                        }
-                      />
-                    ) : null}
+                    {/* {Heart[chaine.id] === true ? ( */}
+                    <CbCm
+                      cb={chaine.cb}
+                      cm={chaine.cm}
+                      b={dailyDataArray[chaine.id - 1]?.cb}
+                      m={dailyDataArray[chaine.id - 1]?.cm}
+                      faible={
+                        Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.faible !== undefined
+                          ? Client[chaine.id].data.faible
+                          : 50
+                      }
+                      moyenne={
+                        Client &&
+                        Client[chaine.id] &&
+                        Client[chaine.id].data &&
+                        Client[chaine.id].data.moyenne !== undefined
+                          ? Client[chaine.id].data.moyenne
+                          : 75
+                      }
+                    />
+                    {/* ) : null} */}
                   </HStack>
                 </CardHeader>
               </Card>

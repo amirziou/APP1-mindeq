@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import axiosClient from "../firebase/axios-client";
 import { CanceledError } from "axios";
-import { db } from "../../config";
+import { db, firebase } from "../../config";
 
 interface ChaineData {
   Etat: string;
@@ -71,22 +71,25 @@ const HomePData = () => {
   });
 
   useEffect(() => {
-    const starCountRef = ref(db, "/client");
+    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/client");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       axiosClient
-        .get("/client.json", {
-          signal: controller.signal,
-        })
+        .get(
+          "/zo3wpezaASdJEwL9saNdRp7fKQ93/client.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+          {
+            signal: controller.signal,
+          }
+        )
         .then((res) => {
-          // console.log("importing data");
-
+          console.log("importing data");
+          console.log(res.data);
           setClient(res.data);
           if (Array.isArray(res.data)) {
             res.data.forEach((entry) => {
               if (entry && entry.data) {
-                // console.log("entry");
-                //console.log(entry);
+                console.log("entry");
+                console.log(entry);
                 const timestamp = entry.data.timestamp;
                 //console.log("timestamp");
                 //console.log(timestamp);
@@ -117,13 +120,16 @@ const HomePData = () => {
   useEffect(() => {
     //console.log("start extracting chaine data for all IDs");
 
-    const starCountRef = ref(db, "/HistoryPrjt0");
+    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0");
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       axiosClient
-        .get("/HistoryPrjt0.json", {
-          signal: controller.signal,
-        })
+        .get(
+          "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+          {
+            signal: controller.signal,
+          }
+        )
         .then((res) => {
           const data: GroupedData = res.data;
           setChaineDataMap(data);
@@ -145,6 +151,7 @@ const HomePData = () => {
           for (const chaineId in data) {
             // console.log(`TimestampForm_${chaineId}`);
             const chaineRecord = data[chaineId];
+            //console.log(chaineRecord);
             let cbSum = 0;
             let cmSum = 0;
             let cbDailySum = 0;
@@ -161,6 +168,7 @@ const HomePData = () => {
 
               const recordTimestamp =
                 parseInt(chaineRecord[timestamp].timestamp) * 1000;
+              // console.log(recordTimestamp);
 
               if (recordTimestamp >= Number(storedTimestamp)) {
                 cbCumulative += parseInt(chaineRecord[timestamp].cb);
@@ -216,11 +224,6 @@ const HomePData = () => {
       return () => controller.abort();
     });
   }, [TimestampForm]);
-
-  // console.log({Client &&
-  // Client[1] &&
-  // Client[1].data &&
-  // Client[1].data.client});
 
   // ...
 

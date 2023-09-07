@@ -24,14 +24,17 @@ const HomePageHeartbeat = () => {
   };
 
   useEffect(() => {
-    const starCountRef = ref(db, "/HeartBeat");
+    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/HeartBeat");
 
     onValue(starCountRef, (snapshot) => {
       const controller = new AbortController();
       axiosClient
-        .get("/HeartBeat.json", {
-          signal: controller.signal,
-        })
+        .get(
+          "/zo3wpezaASdJEwL9saNdRp7fKQ93/HeartBeat.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+          {
+            signal: controller.signal,
+          }
+        )
         .then((res) => {
           const ch: Cha[] = Object.values(res.data);
           setHeartbeat(ch);

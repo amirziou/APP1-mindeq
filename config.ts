@@ -1,7 +1,10 @@
+import { getAuth } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import {getDatabase} from 'firebase/database'
+import { useState } from 'react';
+
 
 
 const firebaseConfig = {
@@ -14,10 +17,17 @@ const firebaseConfig = {
     appId: "1:876945044749:web:c673ab7cf1d0e33e1c2c44"
   };
 
-if (firebase.apps.length === 0){
-    firebase.initializeApp(firebaseConfig)
-}
+//  if (firebase.apps.length === 0){
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+ 
+//  }
+
+
+// Initialize Firebase Authentication and get a reference to the service
+
+
 
 const db = getDatabase();
 
-export {db};
+export { firebase, db ,auth };
