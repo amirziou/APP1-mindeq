@@ -59,6 +59,8 @@ const HomePage = () => {
           }}
         /> */}
 
+        {/* <Read /> */}
+
         {userAuth ? <DataHomePage /> : <SignIn />}
 
         {/* <ChartBar /> */}

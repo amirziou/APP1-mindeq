@@ -25,7 +25,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 
 const DataHomePage = () => {
   const navigate = useNavigate(); // Initialize useNavigate
-  const { Heart } = HomePageHeartbeat();
+  //const { Heart } = HomePageHeartbeat();
   const { hourlyData, dailyData, cumulativeData, Client } = HomePData();
 
   const backgroundColors = [
@@ -62,13 +62,6 @@ const DataHomePage = () => {
     cb: hourlyData[chaineId].cb,
     cm: hourlyData[chaineId].cm,
   }));
-
-  console.log("hourlyDataArray");
-  console.log(hourlyDataArray);
-  console.log("dailyDataArray");
-  console.log(dailyDataArray);
-  console.log("cumulativeDataArray");
-  console.log(cumulativeDataArray);
 
   const userSignOut = () => {
     signOut(auth)
@@ -128,13 +121,13 @@ const DataHomePage = () => {
                     <Heading size="md" color="white">
                       Chaine {chaine.id}
                     </Heading>
-                    <span style={{ marginBottom: "10px" }}>
+                    {/* <span style={{ marginBottom: "10px" }}>
                       {Heart[chaine.id] ? (
                         <MdGppGood color="#37FD12" size={25} />
                       ) : (
                         <AiFillCloseCircle color="red" size={25} />
                       )}
-                    </span>
+                    </span> */}
                   </HStack>
                   <Flex justifyContent="space-between" alignItems="center">
                     <Text

@@ -5,7 +5,6 @@ import { CanceledError } from "axios";
 import { db, firebase } from "../../config";
 
 interface ChaineData {
-  Etat: string;
   cb: string;
   cm: string;
   timestamp: string;
@@ -71,162 +70,150 @@ const HomePData = () => {
   });
 
   useEffect(() => {
-    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/client");
-    onValue(starCountRef, (snapshot) => {
-      const controller = new AbortController();
-      axiosClient
-        .get(
-          "/zo3wpezaASdJEwL9saNdRp7fKQ93/client.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
-          {
-            signal: controller.signal,
-          }
-        )
-        .then((res) => {
-          console.log("importing data");
-          console.log(res.data);
-          setClient(res.data);
-          if (Array.isArray(res.data)) {
-            res.data.forEach((entry) => {
-              if (entry && entry.data) {
-                console.log("entry");
-                console.log(entry);
-                const timestamp = entry.data.timestamp;
-                //console.log("timestamp");
-                //console.log(timestamp);
-                if (timestamp) {
-                  // console.log(
-                  //   `Locale storage TimestampForm for ID ${entry.data.id}`
-                  // );
-                  localStorage.removeItem(`TimestampForm_${entry.data.id}`);
-                  // console.log(`TimestampForm_${entry.data.id}`);
-                  localStorage.setItem(
-                    `TimestampForm_${entry.data.id}`,
-                    timestamp.toString()
-                  );
-                }
+    const controller = new AbortController();
+    axiosClient
+      .get(
+        "/zo3wpezaASdJEwL9saNdRp7fKQ93/client.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+        {
+          signal: controller.signal,
+        }
+      )
+      .then((res) => {
+        setClient(res.data);
+        if (Array.isArray(res.data)) {
+          res.data.forEach((entry) => {
+            if (entry && entry.data) {
+              const timestamp = entry.data.timestamp;
+              //console.log("timestamp");
+              //console.log(timestamp);
+              if (timestamp) {
+                // console.log(
+                //   `Locale storage TimestampForm for ID ${entry.data.id}`
+                // );
+                localStorage.removeItem(`TimestampForm_${entry.data.id}`);
+                // console.log(`TimestampForm_${entry.data.id}`);
+                localStorage.setItem(
+                  `TimestampForm_${entry.data.id}`,
+                  timestamp.toString()
+                );
               }
-            });
-          }
-        })
-        .catch((err: Error) => {
-          if (err instanceof CanceledError) return;
-          setError(err.message);
-        });
+            }
+          });
+        }
+      })
+      .catch((err: Error) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+      });
 
-      return () => controller.abort();
-    });
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
-    //console.log("start extracting chaine data for all IDs");
+    const controller = new AbortController();
+    axiosClient
+      .get(
+        "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+        {
+          signal: controller.signal,
+        }
+      )
+      .then((res) => {
+        const data: GroupedData = res.data;
+        setChaineDataMap(data);
 
-    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0");
-    onValue(starCountRef, (snapshot) => {
-      const controller = new AbortController();
-      axiosClient
-        .get(
-          "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
-          {
-            signal: controller.signal,
-          }
-        )
-        .then((res) => {
-          const data: GroupedData = res.data;
-          setChaineDataMap(data);
+        const currentTime = Date.now();
 
-          const currentTime = Date.now();
+        // Calculate the timestamp for the start of the current day
+        const currentDate = new Date();
+        const currentDayStart = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate()
+        ).getTime();
+        const currentHourStart = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate(),
+          currentDate.getHours(),
+          0, // Minutes
+          0, // Seconds
+          0 // Milliseconds
+        ).getTime();
 
-          // Calculate the timestamp for the start of the current day
-          const currentDate = new Date();
-          const currentDayStart = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate()
-          ).getTime();
-          const currentHourStart = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate(),
-            currentDate.getHours(),
-            0, // Minutes
-            0, // Seconds
-            0 // Milliseconds
-          ).getTime();
+        const hourlySumData: { [chaineId: string]: ChaineHourlyData } = {};
+        const dailySumData: { [chaineId: string]: ChaineHourlyData } = {};
+        const cumulativeData: { [chaineId: string]: ChaineHourlyData } = {};
 
-          const hourlySumData: { [chaineId: string]: ChaineHourlyData } = {};
-          const dailySumData: { [chaineId: string]: ChaineHourlyData } = {};
-          const cumulativeData: { [chaineId: string]: ChaineHourlyData } = {};
+        for (const chaineId in data) {
+          // console.log(`TimestampForm_${chaineId}`);
+          const chaineRecord = data[chaineId];
+          //console.log(chaineRecord);
+          let cbSum = 0;
+          let cmSum = 0;
+          let cbDailySum = 0;
+          let cmDailySum = 0;
+          let cbCumulative = 0;
+          let cmCumulative = 0;
 
-          for (const chaineId in data) {
-            // console.log(`TimestampForm_${chaineId}`);
-            const chaineRecord = data[chaineId];
-            //console.log(chaineRecord);
-            let cbSum = 0;
-            let cmSum = 0;
-            let cbDailySum = 0;
-            let cmDailySum = 0;
-            let cbCumulative = 0;
-            let cmCumulative = 0;
+          for (const timestamp in chaineRecord) {
+            const numericId = parseInt(chaineId.replace("chaine", ""));
+            const key = `TimestampForm_${numericId.toString()}`;
+            //console.log("Constructed Key:", key);
+            const storedTimestamp = localStorage.getItem(key);
+            // console.log(storedTimestamp);
 
-            for (const timestamp in chaineRecord) {
-              const numericId = parseInt(chaineId.replace("chaine", ""));
-              const key = `TimestampForm_${numericId.toString()}`;
-              //console.log("Constructed Key:", key);
-              const storedTimestamp = localStorage.getItem(key);
-              // console.log(storedTimestamp);
+            const recordTimestamp =
+              parseInt(chaineRecord[timestamp].timestamp) * 1000;
+            // console.log(recordTimestamp);
 
-              const recordTimestamp =
-                parseInt(chaineRecord[timestamp].timestamp) * 1000;
-              // console.log(recordTimestamp);
-
-              if (recordTimestamp >= Number(storedTimestamp)) {
-                cbCumulative += parseInt(chaineRecord[timestamp].cb);
-                cmCumulative += parseInt(chaineRecord[timestamp].cm);
-              }
-
-              if (
-                recordTimestamp >= currentDayStart &&
-                recordTimestamp >= Number(storedTimestamp)
-              ) {
-                cbDailySum += parseInt(chaineRecord[timestamp].cb);
-                cmDailySum += parseInt(chaineRecord[timestamp].cm);
-              }
-
-              if (
-                recordTimestamp >= Number(storedTimestamp) &&
-                recordTimestamp >= currentHourStart
-                // recordTimestamp >= currentTime - 3600000
-                // && recordTimestamp <= currentTime
-              ) {
-                cbSum += parseInt(chaineRecord[timestamp].cb);
-                cmSum += parseInt(chaineRecord[timestamp].cm);
-              }
+            if (recordTimestamp >= Number(storedTimestamp)) {
+              cbCumulative += parseInt(chaineRecord[timestamp].cb);
+              cmCumulative += parseInt(chaineRecord[timestamp].cm);
             }
 
-            hourlySumData[chaineId] = { cb: cbSum, cm: cmSum };
-            dailySumData[chaineId] = { cb: cbDailySum, cm: cmDailySum };
-            cumulativeData[chaineId] = {
-              cb: cbCumulative,
-              cm: cmCumulative,
-            };
+            if (
+              recordTimestamp >= currentDayStart &&
+              recordTimestamp >= Number(storedTimestamp)
+            ) {
+              cbDailySum += parseInt(chaineRecord[timestamp].cb);
+              cmDailySum += parseInt(chaineRecord[timestamp].cm);
+            }
+
+            if (
+              recordTimestamp >= Number(storedTimestamp) &&
+              recordTimestamp >= currentHourStart
+              // recordTimestamp >= currentTime - 3600000
+              // && recordTimestamp <= currentTime
+            ) {
+              cbSum += parseInt(chaineRecord[timestamp].cb);
+              cmSum += parseInt(chaineRecord[timestamp].cm);
+            }
           }
 
-          setHourlyData(hourlySumData);
-          setDailyData(dailySumData);
-          setCumulativeData(cumulativeData);
+          hourlySumData[chaineId] = { cb: cbSum, cm: cmSum };
+          dailySumData[chaineId] = { cb: cbDailySum, cm: cmDailySum };
+          cumulativeData[chaineId] = {
+            cb: cbCumulative,
+            cm: cmCumulative,
+          };
+        }
 
-          // Convert hourlyData object to array for rendering
+        setHourlyData(hourlySumData);
+        setDailyData(dailySumData);
+        setCumulativeData(cumulativeData);
 
-          setHourlyData(hourlySumData);
-          //  setHourlyDataArray(hourlyDataArray);
-        })
-        .catch((err: Error) => {
-          if (err instanceof CanceledError) return;
-          setError(err.message);
-        });
+        // Convert hourlyData object to array for rendering
 
-      return () => controller.abort();
-    });
+        setHourlyData(hourlySumData);
+        //  setHourlyDataArray(hourlyDataArray);
+      })
+      .catch((err: Error) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+      });
+
+    return () => controller.abort();
   }, [TimestampForm]);
 
   // ...

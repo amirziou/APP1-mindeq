@@ -9,7 +9,6 @@ export type Chaine = {
   id: number;
   cb: number;
   cm: number;
-  Etat: number;
   timestamp: string;
 }[];
 
@@ -79,33 +78,30 @@ const HistoryData = () => {
   };
 
   useEffect(() => {
-    const starCountRef = ref(db, "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0");
-    onValue(starCountRef, (snapshot) => {
-      const controller = new AbortController();
-      axiosClient
-        .get(
-          "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0/chaine" +
-            id +
-            ".json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
-          {
-            signal: controller.signal,
-          }
-        )
-        .then((res) => {
-          const cha = { ...res.data };
-          delete cha.heartbeat;
-          const ch: Chaine = Object.values(cha);
+    const controller = new AbortController();
+    axiosClient
+      .get(
+        "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0/chaine" +
+          id +
+          ".json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+        {
+          signal: controller.signal,
+        }
+      )
+      .then((res) => {
+        const cha = { ...res.data };
+        delete cha.heartbeat;
+        const ch: Chaine = Object.values(cha);
 
-          setHeartbeat(res.data.heartbeat);
-          setONEchaineArray(ch);
-        })
-        .catch((err) => {
-          if (err instanceof CanceledError) return;
-          setError(err.message);
-        });
+        setHeartbeat(res.data.heartbeat);
+        setONEchaineArray(ch);
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+      });
 
-      return () => controller.abort();
-    });
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
