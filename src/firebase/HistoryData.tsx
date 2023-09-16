@@ -4,6 +4,7 @@ import axiosClient from "../firebase/axios-client";
 import { db } from "../../config";
 import { onValue, ref } from "firebase/database";
 import { CanceledError } from "axios";
+import GetAuth from "./GetAuth";
 
 export type Chaine = {
   id: number;
@@ -52,6 +53,7 @@ export interface GroupedDataMois {
 }
 
 const HistoryData = () => {
+  const uid = GetAuth();
   const [ONEchaineArray, setONEchaineArray] = useState<Chaine>([]);
   const { id } = useParams();
   const [organizedData, setOrganizedData] = useState<GroupedData>({});
@@ -81,7 +83,8 @@ const HistoryData = () => {
     const controller = new AbortController();
     axiosClient
       .get(
-        "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0/chaine" +
+        uid.uid +
+          "/HistoryPrjt0/chaine" +
           id +
           ".json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
         {

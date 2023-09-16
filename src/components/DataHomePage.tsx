@@ -12,47 +12,39 @@ import { Card, CardHeader } from "@chakra-ui/card";
 import CbCm from "./CbCm";
 
 import { Link } from "react-router-dom";
-import HomePageHeartbeat from "../firebase/HomePageHeartbeat";
 import HomePData from "../firebase/HomePData";
 import CbCmTotal from "./CbCmTotal";
 
 import { auth } from "../../config";
 import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { set } from "firebase/database";
-import { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 
 const DataHomePage = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
-  //const { Heart } = HomePageHeartbeat();
   const { hourlyData, dailyData, cumulativeData, Client } = HomePData();
-
+  //console.log("cumulativeData");
+  // console.log(cumulativeData);
   const backgroundColors = [
-    //"red.200",
-    //"rgb(226,70,128)",
     "rgb(105,107,245)",
-    //"green.200",
     "rgb(117,124,164)",
-    //"teal.200",
     "rgb(78,191,193)",
-    //"blue.200",
     "	#2E8B57",
-    "cyan.200",
-    "orange.200",
-    "red.300",
-    "purple.200",
-    "pink.200",
+
+    "red.400",
+    "purple.400",
+    "orange.500",
+
+    "pink.400",
+    "cyan.400",
   ];
 
   const cumulativeDataArray = Object.keys(cumulativeData).map((chaineId) => ({
-    id: chaineId,
+    id: parseInt(chaineId.replace("chaine", "")),
     cb: cumulativeData[chaineId].cb,
     cm: cumulativeData[chaineId].cm,
   }));
 
   const dailyDataArray = Object.keys(dailyData).map((chaineId) => ({
-    id: chaineId,
+    id: parseInt(chaineId.replace("chaine", "")),
     cb: dailyData[chaineId].cb,
     cm: dailyData[chaineId].cm,
   }));
@@ -76,6 +68,18 @@ const DataHomePage = () => {
     top: "-43px", // Adjust the top position as needed
     right: "10px", // Adjust the right position as needed
   };
+
+  const sortedhourlyDataArray = hourlyDataArray
+    .slice()
+    .sort((a, b) => a.id - b.id);
+
+  const sorteddailyDataArray = dailyDataArray
+    .slice()
+    .sort((a, b) => a.id - b.id);
+
+  const sortedcumulativeDataArray = cumulativeDataArray
+    .slice()
+    .sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -103,7 +107,7 @@ const DataHomePage = () => {
           spacing={4}
           padding={5}
         >
-          {hourlyDataArray.map((chaine, index) => (
+          {sortedhourlyDataArray.map((chaine, index) => (
             <Link key={index} to={"/chaine/" + chaine.id}>
               <Card
                 _hover={{
@@ -229,8 +233,8 @@ const DataHomePage = () => {
 
                     {/* {Heart[chaine.id] === true && ( */}
                     <CbCmTotal
-                      cb={cumulativeDataArray[chaine.id - 1]?.cb}
-                      cm={cumulativeDataArray[chaine.id - 1]?.cm}
+                      cb={sortedcumulativeDataArray[chaine.id - 1]?.cb}
+                      cm={sortedcumulativeDataArray[chaine.id - 1]?.cm}
                       faible={
                         Client &&
                         Client[chaine.id] &&
@@ -259,8 +263,8 @@ const DataHomePage = () => {
                     <CbCm
                       cb={chaine.cb}
                       cm={chaine.cm}
-                      b={dailyDataArray[chaine.id - 1]?.cb}
-                      m={dailyDataArray[chaine.id - 1]?.cm}
+                      b={sorteddailyDataArray[chaine.id - 1]?.cb}
+                      m={sorteddailyDataArray[chaine.id - 1]?.cm}
                       faible={
                         Client &&
                         Client[chaine.id] &&

@@ -4,15 +4,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  client: z
-    .string()
-    .min(1, { message: "Nom client must be at least 1 characters!!" }),
+  client: z.string().min(1, { message: "Nom client invalide" }),
 
-  Reference: z
-    .string()
-    .min(1, { message: "Reference must be at least 1 characters!!" }),
+  Reference: z.string().min(1, { message: "Reference invalide" }),
 
-  qte: z.number().min(1, { message: "Quantité must be at least 1!!" }),
+  qte: z.number().min(1, { message: "Quantité au moins 1!!" }),
 
   faible: z.number().min(1),
   moyenne: z.number().min(1),

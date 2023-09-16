@@ -27,16 +27,17 @@ const CFaLock = chakra(FaLock);
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
+        console.log(userCredential.user.uid);
       })
       .catch((error) => {
         console.log(error);
+        setError("Email ou mot de passe incorrect.");
       });
   };
 
@@ -106,10 +107,10 @@ const SignIn = () => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  {/* <FormHelperText textAlign="right">
-                    <Link to={""}>Mot de passe oublié?</Link>
-                  </FormHelperText> */}
                 </FormControl>
+                {error && (
+                  <h6 style={{ fontSize: "12px", color: "red" }}>{error}</h6>
+                )}
                 <Button
                   borderRadius={0}
                   type="submit"
@@ -123,39 +124,9 @@ const SignIn = () => {
             </form>
           </Box>
         </Stack>
-        {/* <Box>
-          Contactez nous!
-          
-          <Link color="#009688" to={"/#"}>
-            Sign Up
-          </Link>
-        </Box> */}
+
         <AuthUser />
       </Flex>
-
-      {/* <div>
-        <form onSubmit={handleSignIn}>
-          <h2>Sign In</h2>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <Button type="submit">Sign In</Button>
-          {error && <p>{error}</p>}
-        </form>
-      </div> */}
     </>
   );
 };

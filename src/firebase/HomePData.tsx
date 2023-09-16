@@ -3,6 +3,7 @@ import { onValue, ref } from "firebase/database";
 import axiosClient from "../firebase/axios-client";
 import { CanceledError } from "axios";
 import { db, firebase } from "../../config";
+import GetAuth from "./GetAuth";
 
 interface ChaineData {
   cb: string;
@@ -49,6 +50,8 @@ interface data {
 }
 
 const HomePData = () => {
+  const uid = GetAuth();
+
   const [Client, setClient] = useState<clt>();
   const [chaineDataMap, setChaineDataMap] = useState<GroupedData>({});
   const [hourlyData, setHourlyData] = useState<{
@@ -73,25 +76,24 @@ const HomePData = () => {
     const controller = new AbortController();
     axiosClient
       .get(
-        "/zo3wpezaASdJEwL9saNdRp7fKQ93/client.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+        uid.uid + "/client.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
         {
           signal: controller.signal,
         }
       )
       .then((res) => {
         setClient(res.data);
+
+        const dataArray = Object.values(res.data);
+
         if (Array.isArray(res.data)) {
           res.data.forEach((entry) => {
             if (entry && entry.data) {
               const timestamp = entry.data.timestamp;
-              //console.log("timestamp");
-              //console.log(timestamp);
+
               if (timestamp) {
-                // console.log(
-                //   `Locale storage TimestampForm for ID ${entry.data.id}`
-                // );
                 localStorage.removeItem(`TimestampForm_${entry.data.id}`);
-                // console.log(`TimestampForm_${entry.data.id}`);
+
                 localStorage.setItem(
                   `TimestampForm_${entry.data.id}`,
                   timestamp.toString()
@@ -113,7 +115,8 @@ const HomePData = () => {
     const controller = new AbortController();
     axiosClient
       .get(
-        "/zo3wpezaASdJEwL9saNdRp7fKQ93/HistoryPrjt0.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
+        uid.uid +
+          "/HistoryPrjt0.json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
         {
           signal: controller.signal,
         }

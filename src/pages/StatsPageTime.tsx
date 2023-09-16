@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from "react";
 import TimeSelector from "../components/TimeSelector";
 import StatsPageHeure from "./StatsPageHeure";
-import StatsPageJour from "./StatsPageJour";
-import StatsPageSem from "./StatsPageMois";
+
 import StatsPageMois from "./StatsPageMois";
-import Formulaire from "../formulaire/Formulaire";
+
 import DialogForm from "./DialogForm";
 import { CanceledError } from "axios";
-import { ref, onValue } from "firebase/database";
-import { db } from "../../config";
+
 import axiosClient from "../firebase/axios-client";
 import { useParams } from "react-router-dom";
 import StatsPageAnn from "./StatsPageAnn";
-import { Box, Center, Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { auth } from "../../config";
 import { User, onAuthStateChanged } from "firebase/auth";
 import SignIn from "../Auth/SignIn";
-
-interface Data {
-  Reference: string;
-  bonne: number;
-  client: string;
-  faible: number;
-  moyenne: number;
-  id: string;
-  // Add other properties if needed
-}
+import GetAuth from "../firebase/GetAuth";
 
 const StatsPageTime = () => {
+  const uid = GetAuth();
   const [Time, setTime] = useState("");
   const { id } = useParams();
 
@@ -85,15 +75,13 @@ const StatsPageTime = () => {
                   data.timestamp = Date.now();
                   axiosClient
                     .put(
-                      "/zo3wpezaASdJEwL9saNdRp7fKQ93/client/" +
+                      uid.uid +
+                        "/client/" +
                         id +
                         ".json?auth=bOwevX8JzXtka7iPE1eFIUoAMr4AoavrLfkYAPd8",
                       { data }
                     )
-                    .then((res) => {
-                      // console.log("going data");
-                      //console.log(res.data);
-                    })
+                    .then((res) => {})
                     .catch((err) => {
                       if (err instanceof CanceledError) return;
                     });
